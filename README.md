@@ -1,9 +1,11 @@
 # ODEX Patcher
 
+<!--
 The ART runtime was first introduced in Android 4.4 as an opt-in experimental option, you could enabled it through Developer options.
 Since Android 5.0 it became the standard runtime.
 
 The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART is AOT.
+-->
 
 ## Requisites to run the app
 
