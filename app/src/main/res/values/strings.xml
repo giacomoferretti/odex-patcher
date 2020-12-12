@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ODEX Patcher</string>
+    <string name="warning">Warning</string>
+    <string name="art_warning_body">Your device doesn\'t seem to be using ART as his runtime. This app won\'t work.</string>
+    <string name="exit">Exit</string>
+    <string name="ignore">Ignore</string>
+    <string name="dialog_art_help_step_1">Tap on \"Select runtime\"</string>
+    <string name="dialog_art_help_step_2">Select \"Use ART\"</string>
+    <string name="dialog_art_help_step_3">Tap on \"OK\"</string>
+    <string name="dialog_art_help_step_4">The device will now REBOOT</string>
+    <string name="change_to_art">Change to ART</string>
+    <string name="content_description_preference_change_runtime">Preference to change runtime</string>
+    <string name="content_description_dialog_choose_dalvik_art">Dialog that let you choose between Dalvik and ART</string>
+    <string name="content_description_dialog_confirm_dalvik_art">Dialog asking to change runtime from Dalvik to ART</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="reloading_apps">Reloading apps…</string>
+    <string name="choose_an_app">Choose an app…</string>
+    <string name="patch">Patch</string>
+    <string name="choose_app">Choose app…</string>
+    <string name="target_app">Target app</string>
+    <string name="choose_file">Choose file…</string>
+    <string name="input_file">Input file</string>
+</resources>
