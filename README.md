@@ -7,6 +7,8 @@ Since Android 5.0 it became the standard runtime.
 The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART is AOT.
 -->
 
+## [Download latest release](https://github.com/giacomoferretti/odex-patcher/releases/latest)
+
 ## Requisites to run the app
 
 * ART runtime (default on devices running Android >5.0)
