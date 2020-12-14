@@ -292,10 +292,11 @@ class HomeFragment : BaseFragment() {
                     }
                     Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
                         // Android 6.0 - 9.0 workflow
-                        //  - dex2oat /data/data/me.hexile.odexpatcher/files/base.apk
+                        //  - cd /data/data/me.hexile.odexpatcher/files/
+                        //  - dex2oat base.apk
                         viewModel.addLog("[I] Running dex2oat…")
                         val shellResult = Shell.sh(
-                            "dex2oat --dex-file=$targetApk --oat-file=${
+                            "cd ${App.context.getFileInFilesDir(".").absolutePath} && dex2oat --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
                                 App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
                             }"
                         ).exec()
@@ -308,10 +309,11 @@ class HomeFragment : BaseFragment() {
                     }
                     else -> {
                         // Android 10+ workflow
-                        //  - su dex2oat /data/data/me.hexile.odexpatcher/files/base.apk
+                        //  - cd /data/data/me.hexile.odexpatcher/files/
+                        //  - su dex2oat base.apk
                         viewModel.addLog("[I] Running dex2oat…")
                         val shellResult = Shell.su(
-                            "dex2oat --dex-file=$targetApk --oat-file=${
+                            "cd ${App.context.getFileInFilesDir(".").absolutePath} && dex2oat --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
                                 App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
                             }"
                         ).exec()
