@@ -2,6 +2,7 @@ package me.hexile.odexpatcher.art
 
 import android.os.Build
 import me.hexile.odexpatcher.utils.findFirst
+import me.hexile.odexpatcher.utils.readIntLittleEndian
 import me.hexile.odexpatcher.utils.toInt
 import java.io.File
 import java.io.RandomAccessFile
@@ -129,7 +130,25 @@ class OatFile(private val file: File) {
                 it.write(checksums.entries.elementAt(i).value)
             }
 
-            offset = checksumOffset
+            when (getVersionString()) {
+                "045" -> {
+                    RandomAccessFile(file, "r").use {
+                        // Get dex file offset
+                        it.seek(checksumOffset.toLong() + 4)
+                        val dexFileOffset = it.readIntLittleEndian()
+
+                        // Read header data
+                        // 4096 = oat header offset
+                        //   96 = class_defs_size offset
+                        it.seek(dexFileOffset.toLong() + 4096 + 96)
+                        offset = checksumOffset + 8 + (it.readIntLittleEndian() * 4)
+                    }
+                }
+                else -> {
+                    // TODO: Other versions
+                    offset = checksumOffset
+                }
+            }
         }
     }
 
