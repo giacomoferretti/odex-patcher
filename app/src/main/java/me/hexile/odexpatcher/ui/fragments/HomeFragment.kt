@@ -326,6 +326,11 @@ class HomeFragment : BaseFragment() {
                     }
                 }
 
+                // Fix permissions
+                var shellResult = Shell.su("stat -c '%u' ${App.context.getFileInFilesDir(Const.BASE_APK_FILE_NAME)}").exec()
+                val uid = shellResult.out[0]
+                Shell.su("chown $uid:$uid ${App.context.getFileInFilesDir("*")}").exec()
+
                 // Patch files
                 viewModel.addLog("[I] Patching oat file…")
                 try {
@@ -355,7 +360,7 @@ class HomeFragment : BaseFragment() {
 
                 // Replace original files with patched ones
                 viewModel.addLog("[I] Replacing odex file…")
-                var shellResult = Shell.su(
+                shellResult = Shell.su(
                     "cp ${App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath} ${
                         Art.getOatFile(targetApk)
                     }"
