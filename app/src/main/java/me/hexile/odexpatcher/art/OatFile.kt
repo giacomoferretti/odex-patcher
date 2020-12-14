@@ -131,7 +131,7 @@ class OatFile(private val file: File) {
             }
 
             when (getVersionString()) {
-                "045" -> {
+                "007", "008", "039", "045", "064" -> {
                     RandomAccessFile(file, "r").use {
                         // Get dex file offset
                         it.seek(checksumOffset.toLong() + 4)
