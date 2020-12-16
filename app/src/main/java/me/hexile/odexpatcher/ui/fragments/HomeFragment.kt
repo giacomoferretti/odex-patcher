@@ -360,6 +360,7 @@ class HomeFragment : BaseFragment() {
 
                 // Create folder if non-existent
                 if (!File(Art.getOatFolder(targetApk)).isDirectory && isSdkGreaterThan(Build.VERSION_CODES.M)) {
+                    // https://cs.android.com/android/platform/superproject/+/master:frameworks/native/cmds/installd/InstalldNativeService.cpp;l=2591
                     Shell.su("mkdir -p ${Art.getOatFolder(targetApk)} && chown -R system:install ${baseFolder}/oat && chmod -R 771 ${baseFolder}/oat").exec()
                 }
 
@@ -403,6 +404,7 @@ class HomeFragment : BaseFragment() {
                     // AID_APP_START        = 10000
                     // AID_SHARED_GID_START = 50000
                     val gid = (appUid % 100000) - 10000 + 50000
+                    // https://cs.android.com/android/platform/superproject/+/master:frameworks/native/cmds/installd/dexopt.cpp;l=816
                     Shell.su("chown system:${gid} ${Art.getOatFolder(targetApk)}* && chmod 640 ${Art.getOatFolder(targetApk)}*").exec()
                 }
 
