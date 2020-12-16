@@ -296,7 +296,7 @@ class HomeFragment : BaseFragment() {
                         //  - dex2oat base.apk
                         viewModel.addLog("[I] Running dex2oat…")
                         val shellResult = Shell.sh(
-                            "cd ${App.context.getFileInFilesDir(".").absolutePath} && dex2oat --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
+                            "cd ${App.context.getFileInFilesDir("").absolutePath} && dex2oat --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
                                 App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
                             }"
                         ).exec()
@@ -313,7 +313,7 @@ class HomeFragment : BaseFragment() {
                         //  - su dex2oat base.apk
                         viewModel.addLog("[I] Running dex2oat…")
                         val shellResult = Shell.su(
-                            "cd ${App.context.getFileInFilesDir(".").absolutePath} && dex2oat --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
+                            "cd ${App.context.getFileInFilesDir("").absolutePath} && dex2oat --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
                                 App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
                             }"
                         ).exec()
@@ -358,6 +358,11 @@ class HomeFragment : BaseFragment() {
                     viewModel.addLog(" Done!", false)
                 }
 
+                // Create folder if non-existent
+                if (!File(Art.getOatFolder(targetApk)).isDirectory && isSdkGreaterThan(Build.VERSION_CODES.M)) {
+                    Shell.su("mkdir -p ${Art.getOatFolder(targetApk)} && chown -R system:install ${baseFolder}/oat && chmod -R 771 ${baseFolder}/oat").exec()
+                }
+
                 // Replace original files with patched ones
                 viewModel.addLog("[I] Replacing odex file…")
                 shellResult = Shell.su(
@@ -388,6 +393,17 @@ class HomeFragment : BaseFragment() {
                         return@launch
                     }
                     viewModel.addLog(" Done!", false)
+                }
+
+                // Fix permissions
+                if (isSdkGreaterThan(Build.VERSION_CODES.M)) {
+                    val appUid = App.context.packageManager.getApplicationInfo(viewModel.targetPackage.value!!, 0).uid
+                    // https://cs.android.com/android/platform/superproject/+/master:system/core/libcutils/include/private/android_filesystem_config.h
+                    // AID_USER_OFFSET      = 100000
+                    // AID_APP_START        = 10000
+                    // AID_SHARED_GID_START = 50000
+                    val gid = (appUid % 100000) - 10000 + 50000
+                    Shell.su("chown system:${gid} ${Art.getOatFolder(targetApk)}* && chmod 640 ${Art.getOatFolder(targetApk)}*").exec()
                 }
 
                 viewModel.addLog("[I] Done!")
