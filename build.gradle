@@ -5,9 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        // TODO: Change from 7.0.0-alpha02 to 4.0.1 to fix the InflateException when obfuscation
-        //  is enabled. https://github.com/material-components/material-components-android/issues/1814
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha03'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
