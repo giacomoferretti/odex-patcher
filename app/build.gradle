@@ -35,7 +35,7 @@ android {
     }
 
     packagingOptions {
-        exclude "/META-INF/*.kotlin_module"
+        exclude "/META-INF/*.version"
         exclude "**/kotlin/**"
         exclude "**/*.txt"
         exclude "**/*.xml"
