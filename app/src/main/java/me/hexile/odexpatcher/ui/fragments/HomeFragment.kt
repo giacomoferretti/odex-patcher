@@ -18,13 +18,11 @@ package me.hexile.odexpatcher.ui.fragments
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +31,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.*
-import me.hexile.odexpatcher.BuildConfig
 import me.hexile.odexpatcher.R
 import me.hexile.odexpatcher.art.Art
 import me.hexile.odexpatcher.art.OatFile
@@ -41,13 +38,13 @@ import me.hexile.odexpatcher.art.VdexFile
 import me.hexile.odexpatcher.core.App
 import me.hexile.odexpatcher.core.BaseFragment
 import me.hexile.odexpatcher.core.Const
+import me.hexile.odexpatcher.core.SELinux
 import me.hexile.odexpatcher.databinding.FragmentHomeBinding
 import me.hexile.odexpatcher.utils.*
 import me.hexile.odexpatcher.viewmodels.MainActivityViewModel
 import java.io.File
 import java.util.zip.ZipException
 import java.util.zip.ZipFile
-import java.util.zip.ZipInputStream
 
 class HomeFragment : BaseFragment() {
 
@@ -342,6 +339,12 @@ class HomeFragment : BaseFragment() {
                 Shell.su("chown $appUid:$appUid ${App.context.getFileInFilesDir("*")}").exec()
                 Shell.su("chmod 600 ${App.context.getFileInFilesDir("*")}").exec()
 
+                // TODO: Change context instead of setting SELinux to Permissive
+                // Disable SELinux
+                if (SELinux.isEnabled && SELinux.isEnforced) {
+                    Shell.su("setenforce 0").exec()
+                }
+
                 // Patch files
                 viewModel.addLog("[I] Patching oat file…")
                 try {
@@ -349,6 +352,11 @@ class HomeFragment : BaseFragment() {
                         targetClasses
                     )
                 } catch (e: Exception) {
+                    // TODO: Change context instead of setting SELinux to Permissive
+                    if (SELinux.isEnabled && SELinux.isEnforced) {
+                        Shell.su("setenforce 1").exec()
+                    }
+                    e.printStackTrace()
                     viewModel.addLog("[E] ERROR: ${e.message}")
                     viewModel.state.postValue(true)
                     return@launch
@@ -367,6 +375,12 @@ class HomeFragment : BaseFragment() {
                         return@launch
                     }
                     viewModel.addLog(" Done!", false)
+                }
+
+                // TODO: Change context instead of setting SELinux to Permissive
+                // Enable SELinux
+                if (SELinux.isEnabled && SELinux.isEnforced) {
+                    Shell.su("setenforce 1").exec()
                 }
 
                 // Create folder if non-existent
