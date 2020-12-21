@@ -91,3 +91,4 @@ lint/tmp/
 test
 androidTest
 _helpers/
+extracted_oat
