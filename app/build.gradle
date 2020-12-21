@@ -26,8 +26,14 @@ android {
         applicationId "me.hexile.odexpatcher"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 101
-        versionName "1.0.1"
+
+        // MM = major version
+        // mm = minor version
+        // pp = patch version
+        // xx = extra (00 should be release)
+        //          MMmmppxx
+        versionCode  1010000
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
