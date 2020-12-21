@@ -236,7 +236,9 @@ LpT9
 lPT9
 LPT9
 
-# Custom
+### CUSTOM ###
+
+# Java-like names
 next
 size
 length
@@ -245,6 +247,27 @@ hashCode
 String
 Array
 File
+Exception
+java
+lang
+util
+javax
+IOException
+android
+os
+Class
+app
+internal
+Integer
+Boolean
+Long
+Activity
+Application
+Context
+Thread
+RuntimeException
+
+# Phrases
 stop_looking_at_my_code
 did_you_understand
 pls_do_it_for_me
