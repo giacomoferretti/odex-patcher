@@ -24,16 +24,15 @@ import java.io.RandomAccessFile
 class VdexFile(private val file: File) {
 
     object Const {
-        val VDEX_HEADER = "oat\n".toByteArray()
+        val VDEX_HEADER = "vdex".toByteArray()
         const val VDEX_VERSION_OREO = "006"
         const val VDEX_VERSION_OREO_MR1 = "010"
         const val VDEX_VERSION_PIE = "019"
         const val VDEX_VERSION_ANDROID_10 = "021"
     }
 
-    var vdexVerifierDepsVersion: ByteArray
-    var vdexDexSectionVersion: ByteArray
-    var vdexNumberOfDexFiles: ByteArray
+    var vdexVersion: ByteArray
+    var dexFileCount: Int
 
     private var offset = 0
 
@@ -44,9 +43,19 @@ class VdexFile(private val file: File) {
                 throw Exception("VDEX doesn't contain correct magic header.")
             }
 
-            vdexVerifierDepsVersion = it.read(4, 4)
-            vdexDexSectionVersion = it.read(8, 4)
-            vdexNumberOfDexFiles = it.read(12, 4)
+            vdexVersion = it.read(4, 4)
+            dexFileCount = when (versionString) {
+                // Android 8.0.0 - 8.1.0
+                Const.VDEX_VERSION_OREO,
+                Const.VDEX_VERSION_OREO_MR1 -> {
+                    it.read(8, 4).toInt()
+                }
+
+                // Android 9.0.0 - 11
+                else -> {
+                    it.read(12, 4).toInt()
+                }
+            }
 
             offset = when (versionString) {
                 // Android 8.0.0 - 8.1.0
@@ -79,7 +88,7 @@ class VdexFile(private val file: File) {
 
     fun patch(checksums: Map<String, ByteArray>) {
         RandomAccessFile(file, "rw").use {
-            for (i in 0 until vdexNumberOfDexFiles.toInt()) {
+            for (i in 0 until dexFileCount) {
                 val checksumOffset = offset + (i * 4)
                 it.seek(checksumOffset.toLong())
                 it.write(checksums.entries.elementAt(i).value)
@@ -89,6 +98,6 @@ class VdexFile(private val file: File) {
 
     private val versionString: String
         get() {
-            return String(vdexVerifierDepsVersion).substring(0, 3)
+            return String(vdexVersion).substring(0, 3)
         }
 }
