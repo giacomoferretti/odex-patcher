@@ -32,8 +32,8 @@ android {
         // pp = patch version
         // xx = extra (00 should be release)
         //          MMmmppxx
-        versionCode  1010000
-        versionName "1.1.0"
+        versionCode  1010100
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
