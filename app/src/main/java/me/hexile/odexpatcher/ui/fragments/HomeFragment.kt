@@ -205,13 +205,6 @@ class HomeFragment : BaseFragment() {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 viewModel.state.postValue(false)
 
-                // FIXME: Maybe chown with app's uid is better
-                //  This is a temp fix because Shell.sh runs as root and idk what to do instead
-                //  (https://github.com/topjohnwu/libsu/issues/42)
-                App.context.getFileInFilesDir("backup.apk").createNewFile()
-                App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).createNewFile()
-                App.context.getFileInFilesDir(Const.BASE_VDEX_FILE_NAME).createNewFile()
-
                 // Check for root access
                 viewModel.addLog("[I] Checking for root access…")
                 if (!Shell.rootAccess()) {
@@ -343,9 +336,11 @@ class HomeFragment : BaseFragment() {
                 }
 
                 // Fix permissions
-                var shellResult = Shell.su("stat -c '%u' ${App.context.getFileInFilesDir(Const.BASE_APK_FILE_NAME)}").exec()
-                val uid = shellResult.out[0]
-                Shell.su("chown $uid:$uid ${App.context.getFileInFilesDir("*")}").exec()
+                // This is a temp fix because Shell.sh runs as root and idk what to do instead
+                // (https://github.com/topjohnwu/libsu/issues/42)
+                val appUid = (App.context.packageManager.getApplicationInfo(App.context.packageName, 0).uid % 100000)
+                Shell.su("chown $appUid:$appUid ${App.context.getFileInFilesDir("*")}").exec()
+                Shell.su("chmod 600 ${App.context.getFileInFilesDir("*")}").exec()
 
                 // Patch files
                 viewModel.addLog("[I] Patching oat file…")
@@ -382,7 +377,7 @@ class HomeFragment : BaseFragment() {
 
                 // Replace original files with patched ones
                 viewModel.addLog("[I] Replacing odex file…")
-                shellResult = Shell.su(
+                var shellResult = Shell.su(
                     "cp ${App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath} ${
                         Art.getOatFile(targetApk)
                     }"
@@ -421,7 +416,7 @@ class HomeFragment : BaseFragment() {
                     // AID_SHARED_GID_START = 50000
                     val gid = (appUid % 100000) - 10000 + 50000
                     // https://cs.android.com/android/platform/superproject/+/master:frameworks/native/cmds/installd/dexopt.cpp;l=816
-                    Shell.su("chown system:${gid} ${Art.getOatFolder(targetApk)}* && chmod 640 ${Art.getOatFolder(targetApk)}*").exec()
+                    //Shell.su("chown system:${appUid} ${Art.getOatFolder(targetApk)}* && chmod 644 ${Art.getOatFolder(targetApk)}*").exec()
                 }
 
                 viewModel.addLog("[I] Done!")
