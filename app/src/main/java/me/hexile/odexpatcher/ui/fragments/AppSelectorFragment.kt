@@ -17,7 +17,6 @@
 package me.hexile.odexpatcher.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope

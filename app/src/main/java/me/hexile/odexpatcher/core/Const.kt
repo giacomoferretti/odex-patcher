@@ -23,8 +23,6 @@ object Const {
     const val BASE_VDEX_FILE_NAME = "base.vdex"
     const val BASE_ART_FILE_NAME = "base.art"
 
-    //val asdasdasdasdasdasdasd = App.context.getExternalFilesDir(BASE_ODEX_FILE_NAME)
-
     object Permission {
         const val STORAGE = 0
     }
