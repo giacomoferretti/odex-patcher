@@ -16,18 +16,20 @@
 
 package me.hexile.odexpatcher.art
 
+import me.hexile.odexpatcher.utils.read
 import me.hexile.odexpatcher.utils.toInt
 import java.io.File
 import java.io.RandomAccessFile
 
 class VdexFile(private val file: File) {
 
-    companion object {
-        val VDEX_HEADER = "vdex".toByteArray()
-        const val VDEX_READ_BYTES = 64
+    object Const {
+        val VDEX_HEADER = "oat\n".toByteArray()
+        const val VDEX_VERSION_OREO = "006"
+        const val VDEX_VERSION_OREO_MR1 = "010"
+        const val VDEX_VERSION_PIE = "019"
+        const val VDEX_VERSION_ANDROID_10 = "021"
     }
-
-    private val data = ByteArray(VDEX_READ_BYTES)
 
     var vdexVerifierDepsVersion: ByteArray
     var vdexDexSectionVersion: ByteArray
@@ -36,59 +38,57 @@ class VdexFile(private val file: File) {
     private var offset = 0
 
     init {
-        // TODO: Instead of reading data into a ByteArray,
-        //  read only necessary data usingRandomAccessFile
-        // Read data
-        file.inputStream().use {
-            it.read(data)
-        }
+        RandomAccessFile(file, "r").use {
+            // Check correct header
+            if (!it.read(4).contentEquals(Const.VDEX_HEADER)) {
+                throw Exception("VDEX doesn't contain correct magic header.")
+            }
 
-        // Check correct header
-        if (!data.copyOfRange(0, 4).contentEquals(VDEX_HEADER)) {
-            throw Exception("VDEX doesn't contain correct magic header.")
-        }
+            vdexVerifierDepsVersion = it.read(4, 4)
+            vdexDexSectionVersion = it.read(8, 4)
+            vdexNumberOfDexFiles = it.read(12, 4)
 
-        vdexVerifierDepsVersion = data.copyOfRange(4, 8)
-        vdexDexSectionVersion = data.copyOfRange(8, 12)
-        vdexNumberOfDexFiles = data.copyOfRange(12, 16)
+            offset = when (versionString) {
+                // Android 8.0.0 - 8.1.0
+                // https://cs.android.com/android/platform/superproject/+/android-8.0.0_r1:art/runtime/vdex_file.h;l=71
+                // https://cs.android.com/android/platform/superproject/+/android-8.1.0_r1:art/runtime/vdex_file.h;l=78
+                Const.VDEX_VERSION_OREO,
+                Const.VDEX_VERSION_OREO_MR1 -> {
+                    24
+                }
 
-        offset = when (getVersionString()) {
-            // Android 8.0.0 - 8.1.0
-            // https://cs.android.com/android/platform/superproject/+/android-8.0.0_r1:art/runtime/vdex_file.h;l=71
-            // https://cs.android.com/android/platform/superproject/+/android-8.1.0_r1:art/runtime/vdex_file.h;l=78
-            "006", "010" -> { 24 }
+                // Android 9.0.0
+                // https://cs.android.com/android/platform/superproject/+/android-9.0.0_r1:art/runtime/vdex_file.h;l=107
+                Const.VDEX_VERSION_PIE -> {
+                    20
+                }
 
-            // Android 9.0.0
-            // https://cs.android.com/android/platform/superproject/+/android-9.0.0_r1:art/runtime/vdex_file.h;l=107
-            "019" -> { 20 }
+                // Android 10 - Android 11
+                // https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:art/runtime/vdex_file.h;l=129
+                // https://cs.android.com/android/platform/superproject/+/android-11.0.0_r1:art/runtime/vdex_file.h;l=129
+                Const.VDEX_VERSION_ANDROID_10 -> {
+                    28
+                }
 
-            // Android 10 - Android 11
-            // https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:art/runtime/vdex_file.h;l=129
-            // https://cs.android.com/android/platform/superproject/+/android-11.0.0_r1:art/runtime/vdex_file.h;l=129
-            "021" -> { 28 }
-
-            else -> {
-                throw Exception(String.format("Unknown vdex version %s", getVersionString()))
+                else -> {
+                    throw Exception(String.format("Unknown vdex version %s", versionString))
+                }
             }
         }
     }
 
     fun patch(checksums: Map<String, ByteArray>) {
-        for (i in 0 until vdexNumberOfDexFiles.toInt()) {
-            val tmpOffset = offset + (i * 4)
-
-            RandomAccessFile(file, "rw").use {
-                it.seek(tmpOffset.toLong())
+        RandomAccessFile(file, "rw").use {
+            for (i in 0 until vdexNumberOfDexFiles.toInt()) {
+                val checksumOffset = offset + (i * 4)
+                it.seek(checksumOffset.toLong())
                 it.write(checksums.entries.elementAt(i).value)
             }
         }
     }
 
-    fun getVersionString(): String {
-        return String(vdexVerifierDepsVersion).substring(0, 3)
-    }
-
-    fun toByteArray(): ByteArray {
-        return data
-    }
+    private val versionString: String
+        get() {
+            return String(vdexVerifierDepsVersion).substring(0, 3)
+        }
 }

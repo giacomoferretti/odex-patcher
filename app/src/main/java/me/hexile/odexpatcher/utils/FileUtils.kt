@@ -40,3 +40,24 @@ fun RandomAccessFile.readIntLittleEndian(): Int {
     this.read(data)
     return data.toInt()
 }
+
+fun RandomAccessFile.seek(pos: Int) {
+    this.seek(pos.toLong())
+}
+
+fun RandomAccessFile.read(amount: Int): ByteArray {
+    val data = ByteArray(amount)
+    this.read(data)
+    return data
+}
+
+fun RandomAccessFile.read(offset: Long, amount: Int): ByteArray {
+    val data = ByteArray(amount)
+    this.seek(offset)
+    this.read(data)
+    return data
+}
+
+fun RandomAccessFile.read(offset: Int, amount: Int): ByteArray {
+    return this.read(offset.toLong(), amount)
+}

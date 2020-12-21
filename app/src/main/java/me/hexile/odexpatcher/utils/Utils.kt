@@ -26,6 +26,10 @@ fun isSdkGreaterThan(version: Int): Boolean {
     return Build.VERSION.SDK_INT >= version
 }
 
+fun isSdkEqual(version: Int): Boolean {
+    return Build.VERSION.SDK_INT == version
+}
+
 operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
     val value = this.value ?: arrayListOf()
     value.addAll(values)
