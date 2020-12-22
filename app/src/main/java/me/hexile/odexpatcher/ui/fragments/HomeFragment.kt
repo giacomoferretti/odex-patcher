@@ -333,16 +333,11 @@ class HomeFragment : BaseFragment() {
                 }
 
                 // Fix permissions
-                // This is a temp fix because Shell.sh runs as root and idk what to do instead
-                // (https://github.com/topjohnwu/libsu/issues/42)
                 val appUid = (App.context.packageManager.getApplicationInfo(App.context.packageName, 0).uid % 100000)
                 Shell.su("chown $appUid:$appUid ${App.context.getFileInFilesDir("*")}").exec()
                 Shell.su("chmod 600 ${App.context.getFileInFilesDir("*")}").exec()
-
-                // TODO: Change context instead of setting SELinux to Permissive
-                // Disable SELinux
-                if (SELinux.isEnabled && SELinux.isEnforced) {
-                    Shell.su("setenforce 0").exec()
+                if (SELinux.isEnabled()) {
+                    Shell.su("chcon u:object_r:app_data_file:s0:c512,c768 ${App.context.getFileInFilesDir("*")}").exec()
                 }
 
                 // Patch files
@@ -352,10 +347,6 @@ class HomeFragment : BaseFragment() {
                         targetClasses
                     )
                 } catch (e: Exception) {
-                    // TODO: Change context instead of setting SELinux to Permissive
-                    if (SELinux.isEnabled && SELinux.isEnforced) {
-                        Shell.su("setenforce 1").exec()
-                    }
                     e.printStackTrace()
                     viewModel.addLog("[E] ERROR: ${e.message}")
                     viewModel.state.postValue(true)
@@ -375,12 +366,6 @@ class HomeFragment : BaseFragment() {
                         return@launch
                     }
                     viewModel.addLog(" Done!", false)
-                }
-
-                // TODO: Change context instead of setting SELinux to Permissive
-                // Enable SELinux
-                if (SELinux.isEnabled && SELinux.isEnforced) {
-                    Shell.su("setenforce 1").exec()
                 }
 
                 // Create folder if non-existent

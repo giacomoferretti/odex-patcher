@@ -19,9 +19,6 @@ package me.hexile.odexpatcher.core
 import android.annotation.SuppressLint
 
 object SELinux {
-    val isEnabled = isSELinuxEnabled()
-    val isEnforced = isSELinuxEnforced()
-
     @SuppressLint("PrivateApi")
     private fun invoke(methodName: String): Any? {
         val c = Class.forName("android.os.SELinux")
@@ -29,11 +26,11 @@ object SELinux {
         return method.invoke(c)
     }
 
-    fun isSELinuxEnabled(): Boolean {
+    fun isEnabled(): Boolean {
         return invoke("isSELinuxEnabled") as Boolean
     }
 
-    fun isSELinuxEnforced(): Boolean {
+    fun isEnforced(): Boolean {
         return invoke("isSELinuxEnforced") as Boolean
     }
 
