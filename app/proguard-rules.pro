@@ -1,5 +1,5 @@
 # Obfuscation
--repackageclasses 'com'
+-repackageclasses 'androidx.lifecycle'
 -keepattributes 'SourceFile'
 -renamesourcefileattribute '⛔️'
 -obfuscationdictionary 'dictionary.txt'
