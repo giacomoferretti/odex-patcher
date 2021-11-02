@@ -22,7 +22,7 @@ The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART 
 
 ## Requisites to build the app
 
-* Android Studio Arctic Fox 2020.3.1 Canary 3
+* Android Studio Arctic Fox | 2020.3.1 Patch 3
 
 ## Compatibility
 
@@ -46,5 +46,6 @@ The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART 
 | 9 <sup>(138)</sup>             | ✅ | ✅ |
 | 10 <sup>(170)</sup>            | ✅ | ✅ |
 | 11 <sup>(183)</sup>            | ✅ | ✅ |
+| 12 <sup>(195)</sup>            | ❔ | ❔ |
 
 \* Follow [#6](https://github.com/giacomoferretti/odex-patcher/issues/6)
