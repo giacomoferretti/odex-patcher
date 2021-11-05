@@ -47,5 +47,6 @@ The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART 
 | 10 <sup>(170)</sup>            | ✅ | ✅ |
 | 11 <sup>(183)</sup>            | ✅ | ✅ |
 | 12 <sup>(195)</sup>            | ❔ | ❔ |
+| Sv2 <sup>(199)</sup>           | ❔ | ❔ |
 
 \* Follow [#6](https://github.com/giacomoferretti/odex-patcher/issues/6)
