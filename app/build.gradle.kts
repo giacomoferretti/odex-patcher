@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.android.gms.oss-licenses-plugin")
     kotlin("android")
 }
 
@@ -69,6 +70,7 @@ dependencies {
     implementation("${Libs.NAVIGATION_UI_KTX}:2.3.5")
     implementation("${Libs.DATA_STORE_PREFERENCES}:1.0.0")
     implementation("${Libs.SWIPE_REFRESH_LAYOUT}:1.1.0")
+    implementation("${Libs.PLAY_SERVICES_OSS_LICENSES}:17.0.0")
     //implementation("${Libs.SPLASH_SCREEN}:1.0.0-alpha02")
 
     // libsu

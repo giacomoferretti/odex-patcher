@@ -28,6 +28,7 @@ object Libs {
     const val MATERIAL = "com.google.android.material:material"
     const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx"
+    const val PLAY_SERVICES_OSS_LICENSES = "com.google.android.gms:play-services-oss-licenses"
     const val SPLASH_SCREEN = "androidx.core:core-splashscreen"
     const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout"
 }
