@@ -18,6 +18,7 @@ package me.hexile.odexpatcher.art
 
 import android.os.Build
 import me.hexile.odexpatcher.core.Const
+import me.hexile.odexpatcher.utils.extractFilename
 import java.io.File
 
 object Art {
@@ -56,7 +57,7 @@ object Art {
                 getOatFolder(baseApk) + baseApk.substring(1).replace("/", "@") + "@classes.dex"
             }
             else -> {
-                getOatFolder(baseApk) + Const.BASE_ODEX_FILE_NAME
+                getOatFolder(baseApk) + baseApk.extractFilename().replace(".apk", ".odex")
             }
         }
     }

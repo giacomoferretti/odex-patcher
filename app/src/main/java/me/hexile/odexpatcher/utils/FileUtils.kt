@@ -21,6 +21,10 @@ import java.io.File
 import java.io.InputStream
 import java.io.RandomAccessFile
 
+fun String.extractFilename(): String {
+    return this.substring(this.lastIndexOf("/") + 1)
+}
+
 fun File.copyInputStreamToFile(inputStream: InputStream) {
     this.outputStream().use { fileOut ->
         inputStream.copyTo(fileOut)
