@@ -73,6 +73,12 @@ dependencies {
     implementation("${Libs.SWIPE_REFRESH_LAYOUT}:1.1.0")
     implementation("${Libs.PLAY_SERVICES_OSS_LICENSES}:17.0.0")
     implementation("${Libs.MULTIDEX}:2.0.1")
+    implementation("${Libs.NAVIGATION_FRAGMENT_KTX}:2.3.5")
+    implementation("${Libs.NAVIGATION_UI_KTX}:2.3.5")
+    implementation("${Libs.LIFECYCLE_RUNTIME}:2.4.0")
+    //implementation("${Libs.LIFECYCLE_VIEWMODEL}:2.4.0")
+    //implementation("${Libs.LIFECYCLE_LIVEDATA}:2.4.0")
+    //implementation("${Libs.LIFECYCLE_VIEWMODEL_SAVEDSTATE}:2.4.0")
     //implementation("${Libs.SPLASH_SCREEN}:1.0.0-alpha02")
 
     // libsu
@@ -82,4 +88,6 @@ dependencies {
     testImplementation("${Libs.JUNIT}:4.13.2")
     androidTestImplementation("${Libs.EXT_JUNIT}:1.1.3")
     androidTestImplementation("${Libs.ESPRESSO_CORE}:3.4.0")
+
+    //debugImplementation("${Libs.LEAKCANARY}:2.7")
 }
