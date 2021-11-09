@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package me.hexile.odexpatcher.utils
+package me.hexile.odexpatcher.ktx
 
+import androidx.annotation.IntRange
 import java.util.*
 
 const val HEX_CHARS = "0123456789ABCDEF"
@@ -35,11 +36,12 @@ fun ByteArray.toHexString(separator: String = ""): String {
 }
 
 fun String.hexToByteArray(): ByteArray {
-    val uppercase = this.toUpperCase(Locale.getDefault())
+    val uppercase = this.uppercase(Locale.getDefault())
     val len = uppercase.length
     val result = ByteArray(len / 2)
     (0 until len step 2).forEach { i ->
-        result[i.shr(1)] = HEX_CHARS.indexOf(uppercase[i]).shl(4).or(HEX_CHARS.indexOf(uppercase[i + 1])).toByte()
+        result[i.shr(1)] =
+            HEX_CHARS.indexOf(uppercase[i]).shl(4).or(HEX_CHARS.indexOf(uppercase[i + 1])).toByte()
     }
     return result
 }
@@ -77,7 +79,7 @@ fun Int.toByteArray(littleEndian: Boolean = true): ByteArray {
     return result
 }
 
-fun ByteArray.findFirst(sequence: ByteArray, offset: Int = 0): Int {
+fun ByteArray.findFirst(sequence: ByteArray, @IntRange(from = 0) offset: Int = 0): Int {
     if (sequence.isEmpty()) {
         throw IllegalArgumentException("sequence must be a non-empty byte array")
     }

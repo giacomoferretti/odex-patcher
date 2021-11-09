@@ -16,9 +16,27 @@
 
 package me.hexile.odexpatcher.core
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import me.hexile.odexpatcher.ktx.checkSelfPermissionCompat
+import me.hexile.odexpatcher.ktx.shouldShowRequestPermissionRationaleCompat
 
 open class BaseFragment : Fragment() {
     val activity get() = requireActivity() as AppCompatActivity
+}
+
+fun BaseFragment.shouldShowRequestPermissionRationaleCompat(permission: String) =
+    activity.shouldShowRequestPermissionRationaleCompat(permission)
+
+fun BaseFragment.checkSelfPermissionCompat(permission: String) =
+    activity.checkSelfPermissionCompat(permission)
+
+fun BaseFragment.openAppSettings(requestCode: Int) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri = Uri.fromParts("package", App.context.packageName, null)
+    intent.data = uri
+    startActivityForResult(intent, requestCode)
 }

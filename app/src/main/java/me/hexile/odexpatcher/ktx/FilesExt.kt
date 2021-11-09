@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.hexile.odexpatcher.utils
+package me.hexile.odexpatcher.ktx
 
 import android.content.Context
 import java.io.File
@@ -45,23 +45,27 @@ fun RandomAccessFile.readIntLittleEndian(): Int {
     return data.toInt()
 }
 
-fun RandomAccessFile.seek(pos: Int) {
+fun RandomAccessFile.seekStart() {
+    this.seek(0)
+}
+
+fun RandomAccessFile.seekInt(pos: Int) {
     this.seek(pos.toLong())
 }
 
-fun RandomAccessFile.read(amount: Int): ByteArray {
+fun RandomAccessFile.readBytes(amount: Int): ByteArray {
     val data = ByteArray(amount)
     this.read(data)
     return data
 }
 
-fun RandomAccessFile.read(offset: Long, amount: Int): ByteArray {
+fun RandomAccessFile.readBytes(offset: Long, amount: Int): ByteArray {
     val data = ByteArray(amount)
     this.seek(offset)
     this.read(data)
     return data
 }
 
-fun RandomAccessFile.read(offset: Int, amount: Int): ByteArray {
-    return this.read(offset.toLong(), amount)
+fun RandomAccessFile.readBytes(offset: Int, amount: Int): ByteArray {
+    return this.readBytes(offset.toLong(), amount)
 }
