@@ -19,9 +19,11 @@ package me.hexile.odexpatcher.ui.activities
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import me.hexile.odexpatcher.R
 import me.hexile.odexpatcher.databinding.ActivityMainBinding
-import me.hexile.odexpatcher.ui.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,12 +47,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        // Create fragment if first time
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.container, HomeFragment(), HomeFragment.TAG)
-                .commit()
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
         }
     }
 }
