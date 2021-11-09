@@ -18,10 +18,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ODEXPatcher">
+        android:theme="@style/Theme.App">
         <activity
             android:name="me.hexile.odexpatcher.ui.activities.SplashActivity"
-            android:theme="@style/Theme.ODEXPatcher.Splash">
+            android:theme="@style/Theme.App.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
         <activity
             android:name="me.hexile.odexpatcher.ui.activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ODEXPatcher.NoActionBar" />
+            android:theme="@style/Theme.App.NoActionBar" />
     </application>
 
 </manifest>
