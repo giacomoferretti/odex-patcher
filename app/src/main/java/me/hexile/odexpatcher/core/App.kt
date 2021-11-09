@@ -18,10 +18,11 @@ package me.hexile.odexpatcher.core
 
 import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDexApplication
 import com.topjohnwu.superuser.Shell
 import me.hexile.odexpatcher.BuildConfig
 
-class App : Application() {
+class App : MultiDexApplication() {
     companion object {
         lateinit var context: Context
     }
