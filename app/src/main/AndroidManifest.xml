@@ -22,6 +22,7 @@
         <activity
             android:name="me.hexile.odexpatcher.ui.activities.SplashActivity"
             android:theme="@style/Theme.ODEXPatcher.Splash">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
