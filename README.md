@@ -24,7 +24,12 @@ The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART 
 
 * Android Studio Arctic Fox | 2020.3.1 Patch 3
 
-## Compatibility
+## Compatibility matrix
+
+<!--
+Tested on:
+Lineage OS 17.1 (Android 10) arm
+-->
 
 ✅ = Working
 
@@ -32,21 +37,21 @@ The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART 
 
 ❔ = Not tested, but should work
 
-| Android Version <sup>(Oat Version)</sup> | Single Dex | Multi Dex |
-|:-:|:-:|:-:|
-| 4.4 - 4.4.2 <sup>(007)</sup>   | ✅ | ❌* |
-| 4.4.3 - 4.4.4 <sup>(008)</sup> | ❔ | ❌* |
-| 5.0 - 5.0.2 <sup>(039)</sup>   | ✅ | ✅ |
-| 5.1 - 5.1.1 <sup>(045)</sup>   | ✅ | ✅ |
-| 6.0 - 6.0.1 <sup>(064)</sup>   | ✅ | ✅ |
-| 7.0 - 7.1 <sup>(079)</sup>     | ✅ | ✅ |
-| 7.1.1 - 7.1.2 <sup>(088)</sup> | ✅ | ✅ |
-| 8.0 <sup>(124)</sup>           | ✅ | ✅ |
-| 8.1 <sup>(131)</sup>           | ✅ | ✅ |
-| 9 <sup>(138)</sup>             | ✅ | ✅ |
-| 10 <sup>(170)</sup>            | ✅ | ✅ |
-| 11 <sup>(183)</sup>            | ✅ | ✅ |
-| 12 <sup>(195)</sup>            | ❔ | ❔ |
-| Sv2 <sup>(199)</sup>           | ❔ | ❔ |
+| Android Version | Oat Version | Single Dex 32bit | Single Dex 64bit | Multi Dex 32bit | Multi Dex 64bit |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| 4.4 - 4.4.2   | 007 | ❔ | ❔ | ❌<sup>(1)</sup> | ❌<sup>(1)</sup> |
+| 4.4.3 - 4.4.4 | 008 | ❔ | ❔ | ❌<sup>(1)</sup> | ❌<sup>(1)</sup> |
+| 5.0 - 5.0.2   | 039 | ❔ | ❔ | ❔ | ❔ |
+| 5.1 - 5.1.1   | 045 | ❔ | ❔ | ❔ | ❔ |
+| 6.0 - 6.0.1   | 064 | ❔ | ❌ | ❔ | ❌ |
+| 7.0 - 7.1     | 079 | ❔ | ❔ | ❔ | ❔ |
+| 7.1.1 - 7.1.2 | 088 | ❔ | ❔ | ❔ | ❔ |
+| 8.0           | 124 | ❔ | ❔ | ❔ | ❔ |
+| 8.1           | 131 | ❔ | ❔ | ❔ | ❔ |
+| 9             | 138 | ❔ | ❔ | ❔ | ❔ |
+| 10            | 170 | ✅ | ❔ | ❔ | ❔ |
+| 11            | 183 | ❔ | ❔ | ❔ | ❔ |
+| 12            | 195 | ❔ | ❔ | ❔ | ❔ |
+| Sv2           | 199 | ❔ | ❔ | ❔ | ❔ |
 
-\* Follow [#6](https://github.com/giacomoferretti/odex-patcher/issues/6)
+<sup>(1)</sup> Follow [#6](https://github.com/giacomoferretti/odex-patcher/issues/6)
