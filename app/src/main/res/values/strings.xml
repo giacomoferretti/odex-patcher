@@ -15,25 +15,47 @@
   -->
 
 <resources>
+    <!-- App-specific -->
     <string name="app_name">ODEX Patcher</string>
-    <string name="warning">Warning</string>
-    <string name="art_warning_body">Your device doesn\'t seem to be using ART as his runtime. This app won\'t work.</string>
-    <string name="exit">Exit</string>
+
+    <!-- Common -->
     <string name="ignore">Ignore</string>
-    <string name="dialog_art_help_step_1">Tap on \"Select runtime\"</string>
-    <string name="dialog_art_help_step_2">Select \"Use ART\"</string>
-    <string name="dialog_art_help_step_3">Tap on \"OK\"</string>
-    <string name="dialog_art_help_step_4">The device will now REBOOT</string>
-    <string name="change_to_art">Change to ART</string>
+    <string name="warning">Warning</string>
+    <string name="exit">Exit</string>
+    <string name="patch">Patch</string>
+    <string name="ready">Ready!</string>
+    <string name="done">Done!</string>
+
+    <!-- Splash screen -->
+    <string name="dialog_art_warning_body">Your device doesn\'t seem to be using ART as his runtime. This app won\'t work.</string>
+    <string name="dialog_button_change_to_art">Change to ART</string>
+    <string name="dialog_title_change_to_art">How to change to ART</string>
+    <string name="dialog_art_help_step_1">1) Tap on \"Select runtime\"</string>
+    <string name="dialog_art_help_step_2">2) Select \"Use ART\"</string>
+    <string name="dialog_art_help_step_3">3) Tap on \"OK\"</string>
+    <string name="dialog_art_help_step_4">4) The device will now REBOOT</string>
+
+    <!-- Main screen -->
+    <string name="error_select_input_file">You need to select an input file.</string>
+    <string name="error_select_target_app">You need to select a target app.</string>
+
+    <!-- Content descriptions -->
     <string name="content_description_preference_change_runtime">Preference to change runtime</string>
     <string name="content_description_dialog_choose_dalvik_art">Dialog that let you choose between Dalvik and ART</string>
     <string name="content_description_dialog_confirm_dalvik_art">Dialog asking to change runtime from Dalvik to ART</string>
+
+
     <string name="open_settings">Open Settings</string>
     <string name="reloading_apps">Reloading apps…</string>
     <string name="choose_an_app">Choose an app…</string>
-    <string name="patch">Patch</string>
     <string name="choose_app">Choose app…</string>
     <string name="target_app">Target app</string>
     <string name="choose_file">Choose file…</string>
     <string name="input_file">Input file</string>
+    <string name="checking_root_access">Checking for root access…</string>
+    <string name="error_no_root_access">No root access! This app won\'t work without it.</string>
+    <string name="error_file_not_zip">Input file is not a zip.</string>
+    <string name="error_different_dex_count">Input file has a different amount of classes.dex files.</string>
+    <string name="report">Report</string>
+    <string name="licenses">Licenses</string>
 </resources>

@@ -19,13 +19,11 @@ package me.hexile.odexpatcher.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.hexile.odexpatcher.R
 import me.hexile.odexpatcher.art.Art
 
 class SplashActivity : AppCompatActivity() {
-
     companion object {
         private const val TAG = "SplashActivity"
     }
@@ -39,25 +37,24 @@ class SplashActivity : AppCompatActivity() {
         if (!Art.isRuntimeArt()) {
             val changeToArtDialog = MaterialAlertDialogBuilder(this)
                 .setCancelable(false)
-                .setTitle(getString(R.string.change_to_art))
+                .setTitle(getString(R.string.dialog_title_change_to_art))
                 .setView(R.layout.dialog_art_development_settings)
                 .setNegativeButton(getString(R.string.exit)) { _, _ ->
                     finish()
                 }
                 .setPositiveButton(getString(R.string.open_settings)) { _, _ ->
-                    val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)
-                    startActivity(intent)
+                    startActivity(Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS))
                     finish()
                 }
 
             MaterialAlertDialogBuilder(this)
                 .setCancelable(false)
                 .setTitle(getString(R.string.warning))
-                .setMessage(getString(R.string.art_warning_body))
+                .setMessage(getString(R.string.dialog_art_warning_body))
                 .setNegativeButton(getString(R.string.exit)) { _, _ ->
                     finish()
                 }
-                .setPositiveButton(getString(R.string.change_to_art)) { _, _ ->
+                .setPositiveButton(getString(R.string.dialog_button_change_to_art)) { _, _ ->
                     changeToArtDialog.show()
                 }
                 .show()
