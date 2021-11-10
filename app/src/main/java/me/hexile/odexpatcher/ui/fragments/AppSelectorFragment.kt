@@ -20,16 +20,17 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import me.hexile.odexpatcher.R
-import me.hexile.odexpatcher.databinding.FragmentAppSelectorBinding
-import me.hexile.odexpatcher.data.AppInfo
 import me.hexile.odexpatcher.adapters.AppInfoAdapter
 import me.hexile.odexpatcher.core.BaseFragment
+import me.hexile.odexpatcher.data.AppInfo
+import me.hexile.odexpatcher.databinding.FragmentAppSelectorBinding
 import me.hexile.odexpatcher.utils.showSnackbar
+import me.hexile.odexpatcher.viewmodels.MainViewModel
 import me.hexile.odexpatcher.views.MarginItemDecoration
-import me.hexile.odexpatcher.viewmodels.MainActivityViewModel
 
 class AppSelectorFragment : BaseFragment() {
     companion object {
@@ -38,12 +39,10 @@ class AppSelectorFragment : BaseFragment() {
 
     private lateinit var binding: FragmentAppSelectorBinding
 
-    private val model by activityViewModels<MainActivityViewModel>()
+    private val model by activityViewModels<MainViewModel>()
 
     override fun onStart() {
         super.onStart()
-        activity.title = getString(R.string.choose_an_app)
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHasOptionsMenu(true)
     }
 
@@ -81,7 +80,8 @@ class AppSelectorFragment : BaseFragment() {
     private fun adapterOnClick(app: AppInfo) {
         model.targetPackage.value = app.packageName
 
-        activity.supportFragmentManager.popBackStack();
+        //activity.supportFragmentManager.popBackStack();
+        findNavController().popBackStack()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

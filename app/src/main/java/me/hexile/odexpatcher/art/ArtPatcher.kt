@@ -1,7 +1,7 @@
 package me.hexile.odexpatcher.art
 
-import me.hexile.odexpatcher.utils.readBytes
-import me.hexile.odexpatcher.utils.toHexString
+import me.hexile.odexpatcher.ktx.readBytes
+import me.hexile.odexpatcher.ktx.toHexString
 import java.io.File
 import java.io.RandomAccessFile
 

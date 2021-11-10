@@ -18,7 +18,7 @@ package me.hexile.odexpatcher.art
 
 import android.os.Build
 import me.hexile.odexpatcher.core.Const
-import me.hexile.odexpatcher.utils.extractFilename
+import me.hexile.odexpatcher.ktx.extractFilename
 import java.io.File
 
 object Art {
@@ -28,7 +28,7 @@ object Art {
         Build.SUPPORTED_ABIS[0]
     }
 
-    val ISA_FOLDER: String = when(CPU_ABI) {
+    val ISA_FOLDER: String = when (CPU_ABI) {
         // Reference: https://cs.android.com/android/platform/superproject/+/master:art/libartbase/arch/instruction_set.cc;l=40
         "armeabi-v7a", "armeabi" -> "arm"
         "arm64-v8a" -> "arm64"
