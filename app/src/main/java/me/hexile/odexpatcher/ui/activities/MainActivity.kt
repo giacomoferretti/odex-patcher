@@ -26,20 +26,11 @@ import me.hexile.odexpatcher.R
 import me.hexile.odexpatcher.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     companion object {
         private const val TAG = "MainActivity"
     }
 
     private lateinit var binding: ActivityMainBinding
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> super.onBackPressed()
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +44,12 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> super.onBackPressed()
+            else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 }

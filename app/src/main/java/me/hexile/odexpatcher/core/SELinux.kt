@@ -19,6 +19,8 @@ package me.hexile.odexpatcher.core
 import android.annotation.SuppressLint
 
 object SELinux {
+    // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/os/SELinux.java
+
     @SuppressLint("PrivateApi")
     private fun invoke(methodName: String): Any? {
         val c = Class.forName("android.os.SELinux")

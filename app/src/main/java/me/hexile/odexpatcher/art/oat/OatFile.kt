@@ -18,9 +18,9 @@ package me.hexile.odexpatcher.art.oat
 
 import me.hexile.odexpatcher.art.ArtException
 import me.hexile.odexpatcher.art.ArtPatcher
-import me.hexile.odexpatcher.utils.readBytes
-import me.hexile.odexpatcher.utils.seekInt
-import me.hexile.odexpatcher.utils.seekStart
+import me.hexile.odexpatcher.ktx.readBytes
+import me.hexile.odexpatcher.ktx.seekInt
+import me.hexile.odexpatcher.ktx.seekStart
 import java.io.File
 import java.io.RandomAccessFile
 

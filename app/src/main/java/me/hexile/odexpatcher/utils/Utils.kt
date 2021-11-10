@@ -18,6 +18,7 @@ package me.hexile.odexpatcher.utils
 
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
+import me.hexile.odexpatcher.ktx.toByteArray
 import java.io.File
 import java.util.*
 import java.util.zip.ZipFile
@@ -40,12 +41,12 @@ fun <T> MutableLiveData<T>.notifyObserver() {
     this.value = this.value
 }
 
-fun extractClassesDex(file: File): Map<String, ByteArray> {
+fun extractClassesDex(file: File): ArrayList<ByteArray> { // Map<String, ByteArray> {
     return extractClassesDex(file.absolutePath)
 }
 
-fun extractClassesDex(path: String): Map<String, ByteArray> {
-    val classesDex = LinkedHashMap<String, ByteArray>()
+fun extractClassesDex(path: String): ArrayList<ByteArray> { //Map<String, ByteArray> {
+    /*val classesDex = LinkedHashMap<String, ByteArray>()
     ZipFile(path).use { zip ->
         zip
             .entries()
@@ -56,5 +57,20 @@ fun extractClassesDex(path: String): Map<String, ByteArray> {
                 }
             }
     }
-    return classesDex
+    return classesDex*/
+    val checksums = ArrayList<ByteArray>()
+
+    ZipFile(path).use { zip ->
+        zip
+            .entries()
+            .asSequence()
+            .forEach {
+                if (it.name.startsWith("classes") && it.name.endsWith(".dex")) {
+                    //println(it.name)
+                    checksums.add(it.crc.toInt().toByteArray())
+                }
+            }
+    }
+
+    return checksums
 }

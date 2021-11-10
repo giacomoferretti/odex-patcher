@@ -17,8 +17,8 @@
 package me.hexile.odexpatcher.art.oat
 
 import me.hexile.odexpatcher.art.ArtInfo
-import me.hexile.odexpatcher.utils.readBytes
-import me.hexile.odexpatcher.utils.toInt
+import me.hexile.odexpatcher.ktx.readBytes
+import me.hexile.odexpatcher.ktx.toInt
 import java.io.RandomAccessFile
 
 sealed class OatHeader(private val raf: RandomAccessFile) : ArtInfo {

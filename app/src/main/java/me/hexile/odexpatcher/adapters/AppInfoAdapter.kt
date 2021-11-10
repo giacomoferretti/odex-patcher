@@ -22,8 +22,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import me.hexile.odexpatcher.databinding.ListItemAppBinding
 import me.hexile.odexpatcher.data.AppInfo
+import me.hexile.odexpatcher.databinding.ListItemAppBinding
 
 class AppInfoAdapter(private val onClick: (AppInfo) -> Unit) :
     ListAdapter<AppInfo, AppInfoAdapter.ViewHolder>(AppInfoDiffCallback) {

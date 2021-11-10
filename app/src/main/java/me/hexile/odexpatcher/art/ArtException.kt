@@ -16,7 +16,7 @@
 
 package me.hexile.odexpatcher.art
 
-import me.hexile.odexpatcher.utils.toHexString
+import me.hexile.odexpatcher.ktx.toHexString
 
 class ArtException : Exception {
     constructor() : super()

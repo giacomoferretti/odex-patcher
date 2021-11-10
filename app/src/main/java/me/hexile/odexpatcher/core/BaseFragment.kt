@@ -36,7 +36,7 @@ fun BaseFragment.checkSelfPermissionCompat(permission: String) =
 
 fun BaseFragment.openAppSettings(requestCode: Int) {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-    val uri = Uri.fromParts("package", App.context.packageName, null)
+    val uri = Uri.fromParts("package", activity.packageName, null)
     intent.data = uri
     startActivityForResult(intent, requestCode)
 }

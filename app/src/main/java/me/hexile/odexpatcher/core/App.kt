@@ -16,7 +16,6 @@
 
 package me.hexile.odexpatcher.core
 
-import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.topjohnwu.superuser.Shell
@@ -24,19 +23,24 @@ import me.hexile.odexpatcher.BuildConfig
 
 class App : MultiDexApplication() {
     companion object {
-        lateinit var context: Context
+        lateinit var app: MultiDexApplication
+        fun getContext(): Context {
+            return app.applicationContext
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        context = applicationContext
+        app = this
     }
 
     init {
         Shell.enableVerboseLogging = BuildConfig.DEBUG
-        Shell.setDefaultBuilder(Shell.Builder.create()
-            .setFlags(Shell.FLAG_REDIRECT_STDERR)
-            .setTimeout(10))
+        Shell.setDefaultBuilder(
+            Shell.Builder.create()
+                .setFlags(Shell.FLAG_REDIRECT_STDERR)
+                .setTimeout(10)
+        )
     }
 }

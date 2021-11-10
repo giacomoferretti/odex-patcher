@@ -48,7 +48,12 @@ fun View.showSnackbar(message: String, length: Int) {
     showSnackbar(message, length, null) {}
 }
 
-fun View.showSnackbar(message: String, length: Int, actionMessage: CharSequence?, action: (View) -> Unit) {
+fun View.showSnackbar(
+    message: String,
+    length: Int,
+    actionMessage: CharSequence?,
+    action: (View) -> Unit
+) {
     val snackbar = Snackbar.make(this, message, length)
 
     actionMessage?.let {
