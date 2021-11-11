@@ -5,24 +5,26 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/giacomoferretti/odex-patcher)
 [![GitHub](https://img.shields.io/github/license/giacomoferretti/odex-patcher?color=blue)](LICENSE)
 
-<!--
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/giacomoferretti/odex-patcher.svg)](http://isitmaintained.com/project/giacomoferretti/odex-patcher "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/giacomoferretti/odex-patcher.svg)](http://isitmaintained.com/project/giacomoferretti/odex-patcher "Percentage of issues still open")
+## Introduction
 
-The ART runtime was first introduced in Android 4.4 as an opt-in experimental option, you could enabled it through Developer options.
-Since Android 5.0 it became the standard runtime.
+ODEX Patcher allows you to execute arbitrary code while maintaining the original signature of the target app.
+It does this by patching the OAT (Ahead-of-Time) files that the ART runtime creates when an app is installed.
 
-The difference between Dalvik and the ART runtime is that Dalvik is JIT and ART is AOT.
--->
+This tool can be useful when an app uses SafetyNet for example,as you cannot simply edit the app and sign it with your key.
 
-## Requisites to run the app
+## Examples
 
-* ART runtime (default on devices running Android >5.0)
-* Root access (preferably [Magisk](https://github.com/topjohnwu/Magisk))
+☺️ Coming soon...
 
-## Requisites to build the app
+## Requirements
 
-* Android Studio Arctic Fox | 2020.3.1 Patch 3
+Android 4.4+ devices with root access ([Magisk](https://github.com/topjohnwu/Magisk) is suggested)
+
+## Building and Development
+
+- Clone sources: `git clone https://github.com/giacomoferretti/odex-patcher`
+- Open the project with Android Studio.
+  - Currently using: Android Studio Arctic Fox | 2020.3.1 Patch 3
 
 ## Compatibility matrix
 
