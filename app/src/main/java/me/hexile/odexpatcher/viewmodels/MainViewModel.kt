@@ -153,13 +153,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val logFile = MediaStoreUtils.getFile(filename)
 
         logFile.uri.outputStream().bufferedWriter().use { file ->
+            file.write("---[ App Info ]---\n")
             file.write("${BuildConfig.APPLICATION_ID} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) - ${BuildConfig.BUILD_TYPE} \n")
 
-            file.write("\n[System Properties]\n")
-            ProcessBuilder("getprop").start()
-                .inputStream.reader().use { it.copyTo(file) }
+            file.write("\n---[ Device Info ]---\n")
+            file.write("SDK_INT = ${Build.VERSION.SDK_INT}\n")
+            file.write("RELEASE = ${Build.VERSION.RELEASE}\n")
+            file.write("CPU_ABI = ${Art.CPU_ABI}\n")
+            file.write("ISA = ${Art.ISA}\n")
 
-            file.write("\n[Logcat]\n")
+            file.write("\n---[ SELinux ]---\n")
+            file.write("isEnabled = ${SELinux.isEnabled()}\n")
+            file.write("isEnforced = ${SELinux.isEnforced()}\n")
+            file.write("getContext = ${SELinux.getContext()}\n")
+            ProcessBuilder("logcat", "-d").start()
+                .inputStream.bufferedReader().lineSequence()
+                .filter { it.contains("avc") }
+                .filter { it.contains(context.packageName) }
+                .forEach { file.write("$it\n") }
+
+            file.write("\n---[ Logcat ]---\n")
             ProcessBuilder(
                 "logcat",
                 "-d",
@@ -169,14 +182,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             ).start()
                 .inputStream.reader().use { it.copyTo(file) }
 
-            file.write("\n[SELinux]\n")
-            file.write("isEnabled = ${SELinux.isEnabled()}\n")
-            file.write("isEnforced = ${SELinux.isEnforced()}\n")
-            file.write("getContext = ${SELinux.getContext()}\n")
-            ProcessBuilder("logcat", "-d").start()
-                .inputStream.bufferedReader().lineSequence()
-                .filter { it.contains("avc") }
-                .forEach { file.write("$it\n") }
+            file.write("\n---[ System Properties ]---\n")
+            ProcessBuilder("getprop").start()
+                .inputStream.reader().use { it.copyTo(file) }
         }
 
         val data = logFile.uri.inputStream().bufferedReader().use { file -> file.readText() }
