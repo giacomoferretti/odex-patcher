@@ -44,7 +44,7 @@ fun ScrollView.scrollToBottom() {
     smoothScrollBy(0, delta)
 }
 
-fun View.showSnackbar(message: String, length: Int) {
+fun View.showSnackbar(message: String, length: Int = Snackbar.LENGTH_SHORT) {
     showSnackbar(message, length, null) {}
 }
 
