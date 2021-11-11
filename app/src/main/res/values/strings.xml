@@ -25,6 +25,10 @@
     <string name="patch">Patch</string>
     <string name="ready">Ready!</string>
     <string name="done">Done!</string>
+    <string name="settings">Settings</string>
+    <string name="open">Open</string>
+    <string name="report">Report</string>
+    <string name="licenses">Licenses</string>
 
     <!-- Splash screen -->
     <string name="dialog_art_warning_body">Your device doesn\'t seem to be using ART as his runtime. This app won\'t work.</string>
@@ -44,7 +48,6 @@
     <string name="content_description_dialog_choose_dalvik_art">Dialog that let you choose between Dalvik and ART</string>
     <string name="content_description_dialog_confirm_dalvik_art">Dialog asking to change runtime from Dalvik to ART</string>
 
-
     <string name="open_settings">Open Settings</string>
     <string name="reloading_apps">Reloading apps…</string>
     <string name="choose_an_app">Choose an app…</string>
@@ -56,10 +59,6 @@
     <string name="error_no_root_access">No root access! This app won\'t work without it.</string>
     <string name="error_file_not_zip">Input file is not a zip.</string>
     <string name="error_different_dex_count">Input file has a different amount of classes.dex files.</string>
-    <string name="report">Report</string>
-    <string name="licenses">Licenses</string>
     <string name="notice_app_wont_work_permission">This app won\'t work without this permission.</string>
-    <string name="settings">Settings</string>
-    <string name="open">Open</string>
     <string name="chooser_title_share_log">Share log with</string>
 </resources>
