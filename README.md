@@ -109,9 +109,9 @@ Lineage OS 17.1 (Android 10) arm
 			<td>6.0 - 6.0.1</td>
 			<td>064</td>
 			<td>❔</td>
+			<td>❌</td>
 			<td>❔</td>
-			<td>❔</td>
-			<td>❔</td>
+			<td>❌</td>
 		</tr>
 		<tr>
 			<td>7.0 - 7.1</td>
