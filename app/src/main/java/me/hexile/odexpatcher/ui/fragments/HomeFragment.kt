@@ -22,7 +22,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.view.*
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -35,7 +34,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.hexile.odexpatcher.R
 import me.hexile.odexpatcher.core.BaseFragment
-import me.hexile.odexpatcher.core.checkSelfPermissionCompat
 import me.hexile.odexpatcher.core.openAppSettings
 import me.hexile.odexpatcher.core.shouldShowRequestPermissionRationaleCompat
 import me.hexile.odexpatcher.databinding.FragmentHomeBinding
@@ -86,15 +84,15 @@ class HomeFragment : BaseFragment() {
                 if (shouldShowRequestPermissionRationaleCompat(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     // First time user denied permission
                     binding.root.showSnackbar(
-                        "This app won't work without this permission.",
+                        getString(R.string.notice_app_wont_work_permission),
                         Snackbar.LENGTH_SHORT
                     )
                 } else {
                     // Never ask again
                     binding.root.showSnackbar(
-                        "This app won't work without this permission.",
+                        getString(R.string.notice_app_wont_work_permission),
                         Snackbar.LENGTH_SHORT,
-                        "Settings"
+                        getString(R.string.settings)
                     ) {
                         openAppSettings(0)
                     }
@@ -117,15 +115,15 @@ class HomeFragment : BaseFragment() {
                 if (shouldShowRequestPermissionRationaleCompat(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     // First time user denied permission
                     binding.root.showSnackbar(
-                        "This app won't work without this permission.",
+                        getString(R.string.notice_app_wont_work_permission),
                         Snackbar.LENGTH_SHORT
                     )
                 } else {
                     // Never ask again
                     binding.root.showSnackbar(
-                        "This app won't work without this permission.",
+                        getString(R.string.notice_app_wont_work_permission),
                         Snackbar.LENGTH_SHORT,
-                        "Settings"
+                        getString(R.string.settings)
                     ) {
                         openAppSettings(0)
                     }
@@ -173,14 +171,21 @@ class HomeFragment : BaseFragment() {
             .onEach { event ->
                 when (event) {
                     is MainViewModel.Event.SaveLogEvent -> {
-                        binding.root.showSnackbar(event.path, Snackbar.LENGTH_LONG, "Open") {
+                        binding.root.showSnackbar(
+                            event.path,
+                            Snackbar.LENGTH_LONG,
+                            getString(R.string.open)
+                        ) {
                             val sendIntent: Intent = Intent().apply {
                                 action = Intent.ACTION_SEND
                                 putExtra(Intent.EXTRA_STREAM, event.uri)
                                 type = "text/plain"
                             }
 
-                            val shareIntent = Intent.createChooser(sendIntent, "Share log with")
+                            val shareIntent = Intent.createChooser(
+                                sendIntent,
+                                getString(R.string.chooser_title_share_log)
+                            )
                             startActivity(shareIntent)
                         }
                     }
