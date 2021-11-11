@@ -28,7 +28,7 @@ object Art {
         Build.SUPPORTED_ABIS[0]
     }
 
-    val ISA_FOLDER: String = when (CPU_ABI) {
+    val ISA: String = when (CPU_ABI) {
         // Reference: https://cs.android.com/android/platform/superproject/+/master:art/libartbase/arch/instruction_set.cc;l=40
         "armeabi-v7a", "armeabi" -> "arm"
         "arm64-v8a" -> "arm64"
@@ -43,10 +43,10 @@ object Art {
                 "/data/dalvik-cache/"
             }
             Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
-                "/data/dalvik-cache/$ISA_FOLDER/"
+                "/data/dalvik-cache/$ISA/"
             }
             else -> {
-                File(baseApk).parent!! + "/oat/$ISA_FOLDER/"
+                File(baseApk).parent!! + "/oat/$ISA/"
             }
         }
     }
