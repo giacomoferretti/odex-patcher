@@ -178,7 +178,7 @@ class HomeFragment : BaseFragment() {
                         ) {
                             val sendIntent: Intent = Intent().apply {
                                 action = Intent.ACTION_SEND
-                                putExtra(Intent.EXTRA_STREAM, event.uri)
+                                putExtra(Intent.EXTRA_TEXT, event.data)
                                 type = "text/plain"
                             }
 

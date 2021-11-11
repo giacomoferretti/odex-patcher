@@ -40,6 +40,7 @@ import me.hexile.odexpatcher.core.App
 import me.hexile.odexpatcher.core.Const
 import me.hexile.odexpatcher.core.SELinux
 import me.hexile.odexpatcher.core.utils.MediaStoreUtils
+import me.hexile.odexpatcher.core.utils.MediaStoreUtils.inputStream
 import me.hexile.odexpatcher.core.utils.MediaStoreUtils.outputStream
 import me.hexile.odexpatcher.data.AppInfo
 import me.hexile.odexpatcher.ktx.*
@@ -117,7 +118,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     sealed class Event {
-        data class SaveLogEvent(val path: String, val uri: Uri) : Event()
+        data class SaveLogEvent(val path: String, val data: String) : Event()
         data class SnackBarStringRes(@StringRes val stringId: Int) : Event()
         data class SnackBarString(val string: String) : Event()
         /*data class ShowSnackBarShare(val text: String, val data: String): Event()
@@ -178,7 +179,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 .forEach { file.write("$it\n") }
         }
 
-        eventChannel.send(Event.SaveLogEvent(logFile.toString(), logFile.uri))
+        val data = logFile.uri.inputStream().bufferedReader().use { file -> file.readText() }
+
+        eventChannel.send(Event.SaveLogEvent(logFile.toString(), data))
     }
 
     fun patch() = viewModelScope.launch(Dispatchers.IO) {
