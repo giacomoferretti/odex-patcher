@@ -10,7 +10,7 @@
 ODEX Patcher allows you to execute arbitrary code while maintaining the original signature of the target app.
 It does this by patching the OAT (Ahead-of-Time) files that the ART runtime creates when an app is installed.
 
-This tool can be useful when an app uses SafetyNet for example,as you cannot simply edit the app and sign it with your key.
+This tool can be useful when an app uses SafetyNet for example, as you cannot simply edit the app and sign it with your key.
 
 ## Examples
 
@@ -30,6 +30,7 @@ Android 4.4+ devices with root access ([Magisk](https://github.com/topjohnwu/Mag
 
 <!--
 Tested on:
+Android Emulator 6.0 (23) x86
 Lineage OS 17.1 (Android 10) arm
 -->
 
@@ -46,7 +47,7 @@ Lineage OS 17.1 (Android 10) arm
 | 4.4.3 - 4.4.4   | 008         | ❔ | ❔ | ❌<sup>(1)</sup> | ❌<sup>(1)</sup> |
 | 5.0 - 5.0.2     | 039         | ❔ | ❔ | ❔ | ❔ |
 | 5.1 - 5.1.1     | 045         | ❔ | ❔ | ❔ | ❔ |
-| 6.0 - 6.0.1     | 064         | ❔ | ❌ | ❔ | ❌ |
+| 6.0 - 6.0.1     | 064         | ✅ | ❌ | ✅ | ❌ |
 | 7.0 - 7.1       | 079         | ❔ | ❔ | ❔ | ❔ |
 | 7.1.1 - 7.1.2   | 088         | ❔ | ❔ | ❔ | ❔ |
 | 8.0             | 124         | ❔ | ❔ | ❔ | ❔ |
@@ -110,9 +111,9 @@ Lineage OS 17.1 (Android 10) arm
 		<tr>
 			<td>6.0 - 6.0.1</td>
 			<td>064</td>
-			<td>❔</td>
+			<td>✅</td>
 			<td>❌</td>
-			<td>❔</td>
+			<td>✅</td>
 			<td>❌</td>
 		</tr>
 		<tr>
