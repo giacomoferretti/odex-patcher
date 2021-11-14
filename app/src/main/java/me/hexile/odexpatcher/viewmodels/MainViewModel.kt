@@ -204,7 +204,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         // FIXME: Move to utils
-        if (!Shell.rootAccess() && false) { // FIXME: false hardcoded
+        if (!Shell.rootAccess()) {
             //viewModel.addLog("[E] ERROR: No root access! This app won't work without it.")
             //viewModel.status.postValue("ERROR: " + getString(R.string.error_no_root_access))
             //viewModel.state.postValue(true)
