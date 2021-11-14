@@ -58,6 +58,7 @@ object Art {
     fun getOatFile(baseApk: String): String {
         return when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
+                // https://android.googlesource.com/platform/art/+/refs/tags/android-12.0.0_r1/libartbase/base/file_utils.cc#406
                 getOatFolder(baseApk) + baseApk.substring(1).replace("/", "@") + "@classes.dex"
             }
             else -> {
