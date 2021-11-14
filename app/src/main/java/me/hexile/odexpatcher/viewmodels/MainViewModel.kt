@@ -208,10 +208,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             //viewModel.addLog("[E] ERROR: No root access! This app won't work without it.")
             //viewModel.status.postValue("ERROR: " + getString(R.string.error_no_root_access))
             //viewModel.state.postValue(true)
+            loge("patch", "not root access")
             eventChannel.send(Event.SnackBarStringRes(R.string.error_no_root_access))
             return@launch
         }
-
 
         val targetApk = context.getPackageBaseApk(targetPackage.value!!)
         val baseFolder = File(targetApk).parentFile!!.absolutePath
@@ -230,6 +230,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } catch (e: ZipException) {
             //viewModel.addLog("[E] ERROR: " + getString(R.string.error_file_not_zip))
             //viewModel.state.postValue(true)
+            loge("patch", "not a zip")
             eventChannel.send(Event.SnackBarStringRes(R.string.error_file_not_zip))
             return@launch
         }
@@ -243,17 +244,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             targetClasses.add(it.second)
         }*/
 
-        println("$baseApk = ${sourceClasses.toHexString()}")
-        println("$targetApk = ${targetClasses.toHexString()}")
+        logd("patch", "--- Checksums ---")
+        logd("patch", "source: ${sourceClasses.toHexString()}")
+        logd("patch", "target: ${sourceClasses.toHexString()}")
 
         // TODO(2.1.0): Auto generate dummy classes.dex to match
+        // TODO: System apps sometimes are stripped of classes.dex, so this won't work
+        //   Maybe parse the .odex and .vdex files instead.
         // Check if same number of classes.dex in APK
-        /*if (sourceClasses.size != targetClasses.size) {
+        if (sourceClasses.size != targetClasses.size) {
             //viewModel.addLog("[E] ERROR: " + getString(R.string.error_different_dex_count))
             //viewModel.state.postValue(true)
+            loge("patch", "source.size != target.size")
             eventChannel.send(Event.SnackBarStringRes(R.string.error_different_dex_count))
             return@launch
-        }*/
+        }
 
         // Run dex2oat on source APK
         when {
@@ -355,25 +360,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 //  - cd /data/data/me.hexile.odexpatcher/files/
                 //  - su dex2oat base.apk
                 //viewModel.addLog("[I] Running dex2oat…")
-                println(
-                    "dex2oat --dex-file=${baseApk.absolutePath} --dex-location=base.apk --oat-file=${
-                        context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
-                    }"
-                )
-                val shellResult = Shell.su(
-                    /*"cd ${App.context.getFileInFilesDir("").absolutePath} && dex2oat64 --dex-file=${Const.BASE_APK_FILE_NAME} --oat-file=${
-                        App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
-                    }"*/
-                    "dex2oat --dex-file=${baseApk.absolutePath} --dex-location=base.apk --oat-file=${
-                        context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
-                    }"
-                ).exec()
+                val command = "dex2oat --dex-file=${baseApk.absolutePath} --dex-location=base.apk --oat-file=${
+                    context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
+                }" // Dex2Oat.command
+
+                logd("patch", command)
+
+                val shellResult = Shell.su(command).exec()
                 if (!shellResult.isSuccess) {
                     //viewModel.addLog("[E] ERROR: dex2oat exit code was ${shellResult.code}.")
                     //viewModel.state.postValue(true)
-                    eventChannel.send(Event.SnackBarString("ERROR: LL dex2oat exit code was ${shellResult.code}."))
+                    loge("patch", "dex2oat exit code was ${shellResult.code}.")
+                    eventChannel.send(Event.SnackBarString("ERROR: dex2oat exit code was ${shellResult.code}."))
                     return@launch
                 }
+
                 // Fix permissions
                 val uid = context.packageManager.getApplicationInfo(context.packageName, 0).uid
                 val gid = uid //(uid % 100000) - 10000 + 50000
@@ -384,6 +385,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         ).absolutePath
                     }"
                 ).exec()
+
                 Shell.su(
                     "chown ${uid}:${gid} ${context.getFileInFilesDir(Const.BASE_VDEX_FILE_NAME).absolutePath} && chmod 600 ${
                         context.getFileInFilesDir(
@@ -406,16 +408,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             Shell.su("chcon u:object_r:app_data_file:s0 ${App.context.getFileInFilesDir("*")}").exec()
         }*/
 
-        println(context.openFileInput(Const.BASE_ODEX_FILE_NAME).readBytes().copyOfRange(0, 4))
+        //println(context.openFileInput(Const.BASE_ODEX_FILE_NAME).readBytes().copyOfRange(0, 4))
 
         // Patch files
         //viewModel.addLog("[I] Patching oat file…")
         val oatFile = OatFile(context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME))
-        println(oatFile)
-        //oatFile.patch(targetClasses)
+        logd("patch", oatFile.toString())
+        oatFile.patch(targetClasses)
 
-        val oatFile1 = OatFile(context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME))
-        println(oatFile1)
+        /*val oatFile1 = OatFile(context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME))
+        println(oatFile1)*/
         /*try {
             OatFile(App.context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME)).patch(
                 targetClasses
@@ -437,8 +439,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         if (isSdkGreaterThan(Build.VERSION_CODES.O)) {
             val vdexFile = VdexFile(context.getFileInFilesDir(Const.BASE_VDEX_FILE_NAME))
-            println(vdexFile)
-            //vdexFile.patch(targetClasses)
+            logd("patch", vdexFile.toString())
+            vdexFile.patch(targetClasses)
             //viewModel.addLog("[I] Patching vdex file…")
             /*try {
                 VdexFile(App.context.getFileInFilesDir(Const.BASE_VDEX_FILE_NAME)).patch(
@@ -466,19 +468,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         // Replace original files with patched ones
         //viewModel.addLog("[I] Replacing odex file…")
-        println(
-            "cp ${context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath} ${
-                Art.getOatFile(targetApk)
-            }"
-        )
-        var shellResult = Shell.su(
-            "cp ${context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath} ${
-                Art.getOatFile(targetApk)
-            }"
-        ).exec()
+        val command = "cp ${context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath} ${
+            Art.getOatFile(targetApk)
+        }"
+        logd("patch", command)
+        var shellResult = Shell.su(command).exec()
         if (!shellResult.isSuccess) {
             //viewModel.addLog("[E] ERROR: cp exit code was ${shellResult.code}.")
             //viewModel.state.postValue(true)
+            loge("patch", "cp exit code was ${shellResult.code}.")
             eventChannel.send(Event.SnackBarString("ERROR: PATCH cp exit code was ${shellResult.code}."))
             return@launch
         }
@@ -497,6 +495,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (!shellResult.isSuccess) {
                 //viewModel.addLog("[E] ERROR: cp exit code was ${shellResult.code}.")
                 //viewModel.state.postValue(true)
+                loge("patch", "cp exit code was ${shellResult.code}.")
                 eventChannel.send(Event.SnackBarString("ERROR: cp exit code was ${shellResult.code}."))
                 return@launch
             }
