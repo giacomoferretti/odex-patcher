@@ -362,7 +362,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 //viewModel.addLog("[I] Running dex2oat…")
                 val command = "dex2oat --dex-file=${baseApk.absolutePath} --dex-location=base.apk --oat-file=${
                     context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
-                }" // Dex2Oat.command
+                } --instruction-set=${Art.ISA} --instruction-set-variant=${Art.ISA_VARIANT} --instruction-set-features=${Art.ISA_FEATURES}" // Dex2Oat.command
 
                 logd("patch", command)
 

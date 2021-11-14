@@ -19,6 +19,7 @@ package me.hexile.odexpatcher.art
 import android.os.Build
 import me.hexile.odexpatcher.core.Const
 import me.hexile.odexpatcher.ktx.extractFilename
+import me.hexile.odexpatcher.ktx.getProperty
 import java.io.File
 
 object Art {
@@ -36,6 +37,9 @@ object Art {
         "x86_64" -> "x86_64"
         else -> "none"
     }
+
+    val ISA_VARIANT = getProperty("dalvik.vm.isa.$ISA.variant", ISA)
+    val ISA_FEATURES = getProperty("dalvik.vm.isa.$ISA.features", "default")
 
     fun getOatFolder(baseApk: String): String {
         return when {

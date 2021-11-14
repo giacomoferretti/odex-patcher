@@ -18,10 +18,10 @@ package me.hexile.odexpatcher.core
 
 import android.annotation.SuppressLint
 
+@SuppressLint("PrivateApi")
 object SELinux {
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/os/SELinux.java
 
-    @SuppressLint("PrivateApi")
     private fun invoke(methodName: String): Any? {
         val c = Class.forName("android.os.SELinux")
         val method = c.getMethod(methodName)
@@ -36,14 +36,12 @@ object SELinux {
         return invoke("isSELinuxEnforced") as Boolean
     }
 
-    @SuppressLint("PrivateApi")
     fun getContext(): String {
         val c = Class.forName("android.os.SELinux")
         val method = c.getMethod("getContext")
         return method.invoke(c) as String
     }
 
-    @SuppressLint("PrivateApi")
     fun getFileContext(path: String): String {
         val c = Class.forName("android.os.SELinux")
         val method = c.getMethod("getFileContext", String::class.java)
