@@ -1,97 +1,32 @@
 #!/usr/bin/env bash
 
-# Config
-TARGET_PACKAGES=("me.hexile.sara.multidex" "com.small.apk")
+#
+# Copyright 2020-2021 Giacomo Ferretti
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+ORIGINAL_PWD="$(pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+. "${SCRIPT_DIR}/utils.sh"
+
+TARGET_PACKAGES=("me.hexile.sara.singletextview" "me.hexile.sara.multidex")
 OUTPUT_FOLDER="extracted_oat"
 
-### !!! DO NOT EDIT AFTER THIS IF YOU DON'T KNOW WHAT YOU'RE DOING !!! ###
+mkdir -p "${OUTPUT_FOLDER}"
 
-function logError {
-    printf "[E] %s\n" "${1}"
-}
-
-function logInfo {
-    printf "[I] %s\n" "${1}"
-}
-
-function logDebug {
-    printf "[D] %s\n" "${1}"
-}
-
-function runCommand {
-    adb -s "${1}" shell "${2}"
-}
-
-function runAsRoot {
-    adb -s "${1}" shell "su 0 'sh' -c \"${2}\""
-}
-
-function runAsRootVerbose {
-    printf "==> %s\n" "${2}"
-    runAsRoot "${1}" "${2}"
-}
-
-ADB_DEVICES=()
-while IFS='' read -r line; do ADB_DEVICES+=("${line}"); done < <(adb devices | grep -v "List" | grep -v "permissions" | grep "device" | awk 'NF {print $1}')
-
-# Check if at least one device is connected
-if [[ "${#ADB_DEVICES[@]}" -eq 0 ]]; then
-    logError "No ADB device connected."
-    exit 1
-fi
-
-ADB_TARGET="${ADB_DEVICES[0]}"
-
-# Choose device if multiple devices
-if [[ "${#ADB_DEVICES[@]}" -gt 1 ]]; then
-    printf "Available devices:\n"
-
-    PS3="Select a device (1-${#ADB_DEVICES[@]}): "
-    select option in "${ADB_DEVICES[@]}"; do
-        if [[ 1 -le "${REPLY}" ]] && [[ "${REPLY}" -le "${#ADB_DEVICES[@]}" ]]; then
-            break;
-        else
-            printf "%s is not a valid selection.\n" "${REPLY}"
-        fi
-    done
-
-    ADB_TARGET="${option}"
-fi
-
-# Extract Android SDK
-ADB_TARGET_SDK=$(runCommand "${ADB_TARGET}" "getprop ro.build.version.sdk")
-ADB_TARGET_SDK=${ADB_TARGET_SDK//[$'\001'-$'\037']}
-
-# Extract Android release
-ADB_TARGET_RELEASE=$(runCommand "${ADB_TARGET}" "getprop ro.build.version.release")
-ADB_TARGET_RELEASE=${ADB_TARGET_RELEASE//[$'\001'-$'\037']}
-
-# Extract device CPU ABI
-ADB_TARGET_CPU=$(runCommand "${ADB_TARGET}" "getprop ro.product.cpu.abi")
-ADB_TARGET_CPU=${ADB_TARGET_CPU//[$'\001'-$'\037']}
-
-# Convert CPU ABI to correct ISA
-case $ADB_TARGET_CPU in
-    "armeabi-v7a" | "armeabi")
-        ADB_TARGET_ISA="arm"
-        ;;
-
-    "arm64-v8a")
-        ADB_TARGET_ISA="arm64"
-        ;;
-
-    "x86")
-        ADB_TARGET_ISA="x86"
-        ;;
-
-    "x86_64")
-        ADB_TARGET_ISA="x86_64"
-        ;;
-
-    *)
-        ADB_TARGET_ISA="none"
-        ;;
-esac
+selectAdbDevice
+getDeviceProperties "${ADB_TARGET}"
 
 # Debug info
 logDebug "ADB target: ${ADB_TARGET}"
@@ -164,22 +99,23 @@ for package in "${TARGET_PACKAGES[@]}"; do
         fi
     } > "${PACKAGE_OUTPUT_FOLDER}/ls.txt"
 
+    # Copy .apk file
+    if runAsRoot "${ADB_TARGET}" "cp ${PACKAGE_APK_PATH} /data/local/tmp/uselessfile" >/dev/null; then
+        runAsRoot "${ADB_TARGET}" "chmod 777 /data/local/tmp/uselessfile" >/dev/null
+        adb -s "${ADB_TARGET}" pull /data/local/tmp/uselessfile "${PACKAGE_OUTPUT_FOLDER}/base.apk" >/dev/null
+    fi
+
     # Copy .odex file
     if runAsRoot "${ADB_TARGET}" "cp ${PACKAGE_OAT_FILE} /data/local/tmp/uselessfile" >/dev/null; then
         runAsRoot "${ADB_TARGET}" "chmod 777 /data/local/tmp/uselessfile" >/dev/null
         adb -s "${ADB_TARGET}" pull /data/local/tmp/uselessfile "${PACKAGE_OUTPUT_FOLDER}/base.odex" >/dev/null
     fi
 
-    # Copy .vdex and .art files (Only on Android 8.0+)
+    # Copy .vdex file (Only on Android 8.0+)
     if [[ "${ADB_TARGET_SDK}" -gt 25 ]]; then
         if runAsRoot "${ADB_TARGET}" "cp ${PACKAGE_DIR_PATH}/oat/${ADB_TARGET_ISA}/base.vdex /data/local/tmp/uselessfile" >/dev/null; then
             runAsRoot "${ADB_TARGET}" "chmod 777 /data/local/tmp/uselessfile" >/dev/null
             adb -s "${ADB_TARGET}" pull /data/local/tmp/uselessfile "${PACKAGE_OUTPUT_FOLDER}/base.vdex" >/dev/null
-        fi
-
-        if runAsRoot "${ADB_TARGET}" "cp ${PACKAGE_DIR_PATH}/oat/${ADB_TARGET_ISA}/base.art /data/local/tmp/uselessfile" >/dev/null; then
-            runAsRoot "${ADB_TARGET}" "chmod 777 /data/local/tmp/uselessfile" >/dev/null
-            adb -s "${ADB_TARGET}" pull /data/local/tmp/uselessfile "${PACKAGE_OUTPUT_FOLDER}/base.art" >/dev/null
         fi
     fi
 done
