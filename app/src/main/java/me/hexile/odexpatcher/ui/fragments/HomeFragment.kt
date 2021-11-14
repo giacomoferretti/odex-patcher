@@ -18,6 +18,7 @@ package me.hexile.odexpatcher.ui.fragments
 
 import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
@@ -37,6 +38,7 @@ import me.hexile.odexpatcher.core.BaseFragment
 import me.hexile.odexpatcher.core.openAppSettings
 import me.hexile.odexpatcher.core.shouldShowRequestPermissionRationaleCompat
 import me.hexile.odexpatcher.databinding.FragmentHomeBinding
+import me.hexile.odexpatcher.utils.isSdkGreaterThan
 import me.hexile.odexpatcher.utils.showSnackbar
 import me.hexile.odexpatcher.viewmodels.MainViewModel
 
@@ -152,7 +154,18 @@ class HomeFragment : BaseFragment() {
         })
 
         binding.chooseFileButton.setOnClickListener {
-            chooseFileLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                chooseFileLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            } else {
+                openDocumentLauncher.launch(
+                    arrayOf(
+                        "application/zip",
+                        "application/vnd.android.package-archive",
+                        "application/octet-stream",
+                        "application/x-binary"
+                    )
+                )
+            }
         }
 
         binding.chooseAppButton.setOnClickListener {
@@ -210,7 +223,11 @@ class HomeFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.reportAction -> {
-                saveLogLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    saveLogLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                } else {
+                    viewModel.saveLog()
+                }
                 true
             }
             R.id.licensesAction -> {
