@@ -46,6 +46,17 @@
             android:name="me.hexile.odexpatcher.ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.App.NoActionBar" />
+
+        <receiver
+            android:name=".receivers.SecretCodeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+                <data
+                    android:host="6339"
+                    android:scheme="android_secret_code" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
