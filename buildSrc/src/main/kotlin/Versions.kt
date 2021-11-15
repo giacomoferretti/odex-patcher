@@ -15,8 +15,8 @@
  */
 
 object Versions {
-    const val versionCode = 1010200 // XYYZZMM; M = extra
-    const val versionName = "1.1.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+    const val versionCode = 2000000 // XYYZZMM; M = extra
+    const val versionName = "2.0.0-rc1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
     const val COMPILE_SDK = 31
     const val TARGET_SDK = 31
