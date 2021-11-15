@@ -18,6 +18,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary_500">#FF843DED</color>
-    <color name="primary_700">#FF4C00B9</color>
+    <color name="primary">#ff4312</color>
+    <color name="primary_dark">#dc2e02</color>
+    <color name="primary_light">#ff6636</color>
 </resources>

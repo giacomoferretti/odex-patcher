@@ -18,14 +18,14 @@
     <!-- Base application theme. -->
     <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_500</item>
-        <item name="colorPrimaryDark">@color/primary_700</item>
-        <item name="colorPrimaryVariant">@color/primary_700</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorAccent">@color/primary_500</item>
-        <item name="colorSecondary">@color/primary_500</item>
-        <item name="colorSecondaryVariant">@color/primary_500</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/primary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
