@@ -68,7 +68,7 @@ object Art {
     }
 
     fun getVdexFile(baseApk: String): String {
-        return getOatFolder(baseApk) + Const.BASE_VDEX_FILE_NAME
+        return getOatFolder(baseApk) + baseApk.extractFilename().replace(".apk", ".vdex")
     }
 
     fun isRuntimeArt(): Boolean {
