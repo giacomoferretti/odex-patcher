@@ -178,7 +178,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 "-d",
                 "--pid=${android.os.Process.myPid()}",
                 "-s",
-                "OdexPatcher"
+                "OdexPatcher",
+                "-s",
+                "SHELL_IN",
+                "-s",
+                "SHELLOUT",
+                "-s",
+                "SHELLIMPL"
             ).start()
                 .inputStream.reader().use { it.copyTo(file) }
 
