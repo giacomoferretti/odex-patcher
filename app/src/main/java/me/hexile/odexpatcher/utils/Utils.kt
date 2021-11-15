@@ -41,7 +41,7 @@ fun <T> MutableLiveData<T>.notifyObserver() {
     this.value = this.value
 }
 
-fun extractClassesDex(file: File): ArrayList<ByteArray> { // Map<String, ByteArray> {
+fun extractChecksums(file: File): ArrayList<ByteArray> { // Map<String, ByteArray> {
     return extractClassesDex(file.absolutePath)
 }
 
