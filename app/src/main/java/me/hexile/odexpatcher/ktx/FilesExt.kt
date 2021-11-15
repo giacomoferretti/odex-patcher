@@ -17,6 +17,7 @@
 package me.hexile.odexpatcher.ktx
 
 import android.content.Context
+import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.InputStream
 import java.io.RandomAccessFile
@@ -31,12 +32,16 @@ fun File.copyInputStreamToFile(inputStream: InputStream) {
     }
 }
 
-fun Context.getPackageBaseApk(packageName: String): String {
-    return this.packageManager.getPackageInfo(packageName, 0).applicationInfo.sourceDir
+fun Context.getPackageApk(packageName: String): File {
+    return File(this.packageManager.getPackageInfo(packageName, 0).applicationInfo.sourceDir)
 }
 
 fun Context.getFileInFilesDir(filename: String): File {
     return File(this.filesDir.absolutePath, filename)
+}
+
+fun Context.getFileInCacheDir(filename: String): File {
+    return File(this.cacheDir.absolutePath, filename)
 }
 
 fun RandomAccessFile.readIntLittleEndian(): Int {
@@ -68,4 +73,32 @@ fun RandomAccessFile.readBytes(offset: Long, amount: Int): ByteArray {
 
 fun RandomAccessFile.readBytes(offset: Int, amount: Int): ByteArray {
     return this.readBytes(offset.toLong(), amount)
+}
+
+fun chown(path: String, uid: Int, gid: Int, recursive: Boolean = false): Boolean {
+    return Shell.sh("chown ${if (recursive) "-R" else ""} $uid:$gid $path").exec().isSuccess
+}
+
+fun chmod(path: String, chmod: String, recursive: Boolean = false): Boolean {
+    return Shell.sh("chmod ${if (recursive) "-R" else ""} $chmod $path").exec().isSuccess
+}
+
+fun restorecon(path: String, recursive: Boolean = false): Boolean {
+    return Shell.sh("restorecon ${if (recursive) "-R" else ""} $path").exec().isSuccess
+}
+
+fun fixCacheFolderPermission(fileInCacheDir: File, recursive: Boolean = false): Boolean {
+    if (!chown(fileInCacheDir.absolutePath, selfAppUid(), cacheAppGid(selfAppUid()), recursive)) {
+        return false
+    }
+
+    if (!chmod(fileInCacheDir.absolutePath, "600", recursive)) {
+        return false
+    }
+
+    if (!restorecon(fileInCacheDir.absolutePath, recursive)) {
+        return false
+    }
+
+    return true
 }
