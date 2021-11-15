@@ -38,7 +38,6 @@ import me.hexile.odexpatcher.core.BaseFragment
 import me.hexile.odexpatcher.core.openAppSettings
 import me.hexile.odexpatcher.core.shouldShowRequestPermissionRationaleCompat
 import me.hexile.odexpatcher.databinding.FragmentHomeBinding
-import me.hexile.odexpatcher.utils.isSdkGreaterThan
 import me.hexile.odexpatcher.utils.showSnackbar
 import me.hexile.odexpatcher.viewmodels.MainViewModel
 

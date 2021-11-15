@@ -360,9 +360,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 //  - cd /data/data/me.hexile.odexpatcher/files/
                 //  - su dex2oat base.apk
                 //viewModel.addLog("[I] Running dex2oat…")
-                val command = "dex2oat --dex-file=${baseApk.absolutePath} --dex-location=base.apk --oat-file=${
-                    context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
-                } --instruction-set=${Art.ISA} --instruction-set-variant=${Art.ISA_VARIANT} --instruction-set-features=${Art.ISA_FEATURES}" // Dex2Oat.command
+                val command =
+                    "dex2oat --dex-file=${baseApk.absolutePath} --dex-location=base.apk --oat-file=${
+                        context.getFileInFilesDir(Const.BASE_ODEX_FILE_NAME).absolutePath
+                    } --instruction-set=${Art.ISA} --instruction-set-variant=${Art.ISA_VARIANT} --instruction-set-features=${Art.ISA_FEATURES}" // Dex2Oat.command
 
                 logd("patch", command)
 

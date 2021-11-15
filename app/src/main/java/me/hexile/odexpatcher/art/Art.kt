@@ -17,7 +17,6 @@
 package me.hexile.odexpatcher.art
 
 import android.os.Build
-import me.hexile.odexpatcher.core.Const
 import me.hexile.odexpatcher.ktx.extractFilename
 import me.hexile.odexpatcher.ktx.getProperty
 import java.io.File

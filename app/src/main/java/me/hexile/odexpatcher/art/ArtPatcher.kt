@@ -10,6 +10,7 @@ interface ArtInfo {
     val dexFileCount: Int
     val dexChecksumOffset: Long
     val headerSize: Long
+
     //val headerFields: Int
     fun parseChecksum(pos: Long, checksums: ArrayList<Pair<Long, ByteArray>>): Long
     //fun getHeaderSize(): Long
