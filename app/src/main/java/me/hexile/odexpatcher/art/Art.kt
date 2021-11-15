@@ -30,7 +30,7 @@ object Art {
     }
 
     val ISA: String = when (CPU_ABI) {
-        // Reference: https://cs.android.com/android/platform/superproject/+/master:art/libartbase/arch/instruction_set.cc;l=40
+        // Reference: https://android.googlesource.com/platform/art/+/refs/tags/android-12.0.0_r1/libartbase/arch/instruction_set.cc#40
         "armeabi-v7a", "armeabi" -> "arm"
         "arm64-v8a" -> "arm64"
         "x86" -> "x86"
