@@ -19,6 +19,7 @@ package me.hexile.odexpatcher.art
 import android.os.Build
 import me.hexile.odexpatcher.ktx.extractFilename
 import me.hexile.odexpatcher.ktx.getProperty
+import me.hexile.odexpatcher.ktx.toHexString
 import java.io.File
 
 object Art {
@@ -74,4 +75,16 @@ object Art {
         val vmVersion = System.getProperty("java.vm.version")
         return vmVersion != null && vmVersion.startsWith("2")
     }
+}
+
+class ArtException : Exception {
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+    constructor(cause: Throwable) : super(cause)
+    constructor(
+        message: String,
+        expected: ByteArray,
+        got: ByteArray
+    ) : super("$message Expected: ${expected.toHexString()}, got ${got.toHexString()}")
 }
