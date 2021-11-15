@@ -21,7 +21,7 @@ import java.io.File
 import java.io.InputStream
 import java.io.RandomAccessFile
 
-fun String.extractFilename(): String {
+fun String.filename(): String {
     return this.substring(this.lastIndexOf("/") + 1)
 }
 

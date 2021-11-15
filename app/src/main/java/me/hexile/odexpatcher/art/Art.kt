@@ -17,7 +17,7 @@
 package me.hexile.odexpatcher.art
 
 import android.os.Build
-import me.hexile.odexpatcher.ktx.extractFilename
+import me.hexile.odexpatcher.ktx.filename
 import me.hexile.odexpatcher.ktx.getProperty
 import me.hexile.odexpatcher.ktx.toHexString
 import java.io.File
@@ -62,13 +62,13 @@ object Art {
                 getOatFolder(baseApk) + baseApk.substring(1).replace("/", "@") + "@classes.dex"
             }
             else -> {
-                getOatFolder(baseApk) + baseApk.extractFilename().replace(".apk", ".odex")
+                getOatFolder(baseApk) + baseApk.filename().replace(".apk", ".odex")
             }
         }
     }
 
     fun getVdexFile(baseApk: String): String {
-        return getOatFolder(baseApk) + baseApk.extractFilename().replace(".apk", ".vdex")
+        return getOatFolder(baseApk) + baseApk.filename().replace(".apk", ".vdex")
     }
 
     fun isRuntimeArt(): Boolean {
