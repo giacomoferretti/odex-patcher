@@ -1,7 +1,7 @@
 # ODEX Patcher
 
 [![GitHub all releases](https://img.shields.io/github/downloads/giacomoferretti/odex-patcher/total?color=success)](https://github.com/giacomoferretti/odex-patcher/releases/latest)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/giacomoferretti/odex-patcher)](https://github.com/giacomoferretti/odex-patcher/releases/latest)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/giacomoferretti/odex-patcher?include_prereleases)](https://github.com/giacomoferretti/odex-patcher/releases)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/giacomoferretti/odex-patcher)
 [![GitHub](https://img.shields.io/github/license/giacomoferretti/odex-patcher?color=blue)](LICENSE)
 
@@ -19,6 +19,10 @@ This tool can be useful when an app uses SafetyNet for example, as you cannot si
 ## Requirements
 
 Android 4.4+ devices with root access ([Magisk](https://github.com/topjohnwu/Magisk) is suggested)
+
+## Downloads
+
+Latest release: [2.0.0-rc1](https://github.com/giacomoferretti/odex-patcher/releases/tag/v2.0.0-rc1)
 
 ## Building and Development
 
