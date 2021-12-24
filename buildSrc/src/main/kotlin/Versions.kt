@@ -23,6 +23,9 @@ object Versions {
     const val MIN_SDK = 19
 
     const val BUILD_TOOLS = "31.0.0"
-    const val ANDROID_GRADLE_PLUGIN = "7.0.3"
-    const val KOTLIN = "1.5.31"
+    const val ANDROID_GRADLE_PLUGIN = "7.0.4"
+    const val KOTLIN = "1.6.10"
+
+    const val OSS_LICENSES_PLUGIN = "0.10.4"
+    const val GRADLE_VERSIONS_PLUGIN = "0.39.0"
 }

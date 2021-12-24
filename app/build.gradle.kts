@@ -83,9 +83,9 @@ dependencies {
     // Main
     implementation("${Libs.KOTLIN_STDLIB}:${Versions.KOTLIN}")
     implementation("${Libs.CORE_KTX}:1.7.0")
-    implementation("${Libs.APPCOMPAT}:1.3.1")
+    implementation("${Libs.APPCOMPAT}:1.4.0")
     implementation("${Libs.MATERIAL}:1.4.0")
-    implementation("${Libs.CONSTRAINT_LAYOUT}:2.1.1")
+    implementation("${Libs.CONSTRAINT_LAYOUT}:2.1.2")
     implementation("${Libs.NAVIGATION_FRAGMENT_KTX}:2.3.5")
     implementation("${Libs.NAVIGATION_UI_KTX}:2.3.5")
     implementation("${Libs.DATA_STORE_PREFERENCES}:1.0.0")
@@ -101,7 +101,7 @@ dependencies {
     //implementation("${Libs.SPLASH_SCREEN}:1.0.0-alpha02")
 
     // libsu
-    implementation("${Libs.LIBSU}:3.1.2")
+    implementation("${Libs.LIBSU}:3.2.1")
 
     // Test
     testImplementation("${Libs.JUNIT}:4.13.2")
