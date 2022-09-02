@@ -1,5 +1,10 @@
 package com.giacomoferretti.odexpatcher.library
 
+import android.annotation.SuppressLint
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.os.Build
+
 /*
 https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-13.0.0_r1/services/core/java/com/android/server/pm/InstructionSets.java#60
 
@@ -21,6 +26,14 @@ enum class InstructionSet(val value: String) {
     X86_64("x86_64");
 
     companion object {
+        @JvmStatic
+        fun getDefault() = fromAbi(if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Build.CPU_ABI
+        } else {
+            Build.SUPPORTED_ABIS[0]
+        })
+
+        @JvmStatic
         fun fromAbi(abi: String) = when (abi) {
             // Reference:
             //  - https://developer.android.com/ndk/guides/abis
@@ -30,6 +43,14 @@ enum class InstructionSet(val value: String) {
             "x86" -> X86
             "x86_64" -> X86_64
             else -> NONE
+        }
+
+        @JvmStatic
+        @SuppressLint("DiscouragedPrivateApi")
+        fun fromPackageName(packageManager: PackageManager, packageName: String): InstructionSet {
+            val primaryCpuAbi = ApplicationInfo::class.java.getDeclaredField("primaryCpuAbi").get(packageManager.getPackageInfo(packageName, 0).applicationInfo)
+
+            return if (primaryCpuAbi != null) fromAbi(primaryCpuAbi as String) else getDefault()
         }
     }
 }

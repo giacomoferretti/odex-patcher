@@ -14,8 +14,8 @@ interface IAppInfo {
     val packageName: String
     val iconUri: Uri
     val dexCount: Int
-    val abi: String?
-    val isOptimized: Boolean?
+    val abi: String
+    val isOptimized: Boolean
 }
 
 data class AppInfo(
@@ -23,8 +23,8 @@ data class AppInfo(
     override val packageName: String,
     override val iconUri: Uri,
     override val dexCount: Int,
-    override val abi: String?,
-    override val isOptimized: Boolean?,
+    override val abi: String,
+    override val isOptimized: Boolean,
 ) : IAppInfo {
     companion object {
         @WorkerThread
@@ -46,12 +46,8 @@ data class AppInfo(
                     .build()
             }
 
-            val a = ApplicationInfo::class.java.getDeclaredField("primaryCpuAbi").get(packageManager.getPackageInfo(packageName, 0).applicationInfo)
-
-             var abi: String? = null
-             if (a != null) {
-                 abi = InstructionSet.fromAbi(a as String).value
-             }
+            val abi = InstructionSet.fromPackageName(packageManager, packageName).value
+            val isOptimized = Art.isOptimized(appInfo.sourceDir, abi)
 
             return AppInfo(
                 name = appInfo.loadLabel(packageManager).toString(),
@@ -59,7 +55,7 @@ data class AppInfo(
                 iconUri = iconUri,
                 dexCount = Utils.countClassesDex(appInfo.sourceDir),
                 abi = abi,
-                isOptimized = Art.isOptimized(appInfo.sourceDir)
+                isOptimized = isOptimized
             )
         }
     }
