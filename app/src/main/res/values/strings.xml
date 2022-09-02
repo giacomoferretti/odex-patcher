@@ -1,64 +1,11 @@
-<!--
-  ~ Copyright 2020-2021 Giacomo Ferretti
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <resources>
-    <!-- App-specific -->
     <string name="app_name">ODEX Patcher</string>
-
-    <!-- Common -->
-    <string name="ignore">Ignore</string>
-    <string name="warning">Warning</string>
-    <string name="exit">Exit</string>
-    <string name="patch">Patch</string>
-    <string name="ready">Ready!</string>
-    <string name="done">Done!</string>
-    <string name="settings">Settings</string>
-    <string name="open">Open</string>
-    <string name="report">Report</string>
-    <string name="licenses">Licenses</string>
-
-    <!-- Splash screen -->
-    <string name="dialog_art_warning_body">Your device doesn\'t seem to be using ART as his runtime. This app won\'t work.</string>
-    <string name="dialog_button_change_to_art">Change to ART</string>
-    <string name="dialog_title_change_to_art">How to change to ART</string>
-    <string name="dialog_art_help_step_1">1) Tap on \"Select runtime\"</string>
-    <string name="dialog_art_help_step_2">2) Select \"Use ART\"</string>
-    <string name="dialog_art_help_step_3">3) Tap on \"OK\"</string>
-    <string name="dialog_art_help_step_4">4) The device will now REBOOT</string>
-
-    <!-- Main screen -->
-    <string name="error_select_input_file">You need to select an input file.</string>
-    <string name="error_select_target_app">You need to select a target app.</string>
-
-    <!-- Content descriptions -->
-    <string name="content_description_preference_change_runtime">Preference to change runtime</string>
-    <string name="content_description_dialog_choose_dalvik_art">Dialog that let you choose between Dalvik and ART</string>
-    <string name="content_description_dialog_confirm_dalvik_art">Dialog asking to change runtime from Dalvik to ART</string>
-
-    <string name="open_settings">Open Settings</string>
-    <string name="reloading_apps">Reloading apps…</string>
-    <string name="choose_an_app">Choose an app…</string>
-    <string name="choose_app">Choose app…</string>
-    <string name="target_app">Target app</string>
-    <string name="choose_file">Choose file…</string>
-    <string name="input_file">Input file</string>
-    <string name="checking_root_access">Checking for root access…</string>
-    <string name="error_no_root_access">No root access! This app won\'t work without it.</string>
-    <string name="error_file_not_zip">Input file is not a zip.</string>
-    <string name="error_different_dex_count">Input file has a different amount of classes.dex files.</string>
-    <string name="notice_app_wont_work_permission">This app won\'t work without this permission.</string>
-    <string name="chooser_title_share_log">Share log with</string>
+    <string name="cd_app_icon">App icon</string>
+    <string name="dex_count">classes.dex count: %1$d</string>
+    <string name="abi">abi: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

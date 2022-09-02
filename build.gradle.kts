@@ -1,39 +1,24 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:${Versions.ANDROID_GRADLE_PLUGIN}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
-        classpath("com.google.android.gms:oss-licenses-plugin:${Versions.OSS_LICENSES_PLUGIN}")
-        classpath("com.github.ben-manes:gradle-versions-plugin:${Versions.GRADLE_VERSIONS_PLUGIN}")
-    }
+//buildscript {
+//    val compose_version by extra("1.1.0-beta01")
+//}
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+//plugins {
+//    id 'com.android.application' version '7.2.2' apply false
+//    id 'com.android.library' version '7.2.2' apply false
+//    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+//    id 'org.jetbrains.kotlin.jvm' version '1.7.10' apply false
+//}
+//
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}
+
+plugins {
+    id("com.android.application") version "7.2.2" apply false
+    id("com.android.library") version "7.2.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.7.10" apply false
 }
 
-apply(plugin = "com.github.ben-manes.versions")
-
-fun String.isNonStable(): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { toUpperCase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(this)
-    println("$this = $isStable")
-    return isStable.not()
-}
-
-tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
-    rejectVersionIf {
-        candidate.version.isNonStable()
-    }
-
-    // optional parameters
-    checkForGradleUpdate = true
-    outputFormatter = "json"
-    outputDir = "build/dependencyUpdates"
-    reportfileName = "report"
-}
-
-tasks.register("Delete", Delete::class) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

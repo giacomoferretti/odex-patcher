@@ -15,11 +15,5 @@ build/
 # Android
 release/
 
-# Tests
-app/src/androidTest/
-app/src/test/
-
 # Custom
-extracted_oat
-private
-_old
+.ignoreme

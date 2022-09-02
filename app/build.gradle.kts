@@ -1,65 +1,27 @@
-/*
- * Copyright 2020-2021 Giacomo Ferretti
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 plugins {
     id("com.android.application")
-    id("com.google.android.gms.oss-licenses-plugin")
     kotlin("android")
+    kotlin("kapt")
 }
 
 android {
-    compileSdk = Versions.COMPILE_SDK
-    buildToolsVersion = Versions.BUILD_TOOLS
+    namespace = "com.giacomoferretti.odexpatcher"
+    compileSdk = 32
 
     defaultConfig {
-        applicationId = "me.hexile.odexpatcher"
-        minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
-        versionName = Versions.versionName
-        versionCode = Versions.versionCode
+        applicationId = "com.giacomoferretti.odexpatcher"
+        minSdk = 19
+        targetSdk = 32
+        versionCode = 2_00_00_00
+        versionName = "2.0.0"
+
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/*.version"
-            excludes += "**/kotlin/**"
-            excludes += "**/*.txt"
-            excludes += "**/*.xml"
-            excludes += "**/*.properties"
-
-            // https://github.com/Kotlin/kotlinx.coroutines#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
-            excludes += "DebugProbesKt.bin"
-        }
-    }
-
-    buildFeatures {
-        viewBinding = true
-    }
-
-    dependenciesInfo {
-        includeInApk = false
-        includeInBundle = false
-    }
-
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -70,43 +32,45 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/*.version"
+            excludes += "**/kotlin/**"
+            excludes += "kotlin-tooling-metadata.json"
+
+            // https://github.com/Kotlin/kotlinx.coroutines#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
+            excludes += "DebugProbesKt.bin"
+        }
     }
 }
 
 dependencies {
-    // Main
-    implementation("${Libs.KOTLIN_STDLIB}:${Versions.KOTLIN}")
-    implementation("${Libs.CORE_KTX}:1.7.0")
-    implementation("${Libs.APPCOMPAT}:1.4.0")
-    implementation("${Libs.MATERIAL}:1.4.0")
-    implementation("${Libs.CONSTRAINT_LAYOUT}:2.1.2")
-    implementation("${Libs.NAVIGATION_FRAGMENT_KTX}:2.3.5")
-    implementation("${Libs.NAVIGATION_UI_KTX}:2.3.5")
-    implementation("${Libs.DATA_STORE_PREFERENCES}:1.0.0")
-    implementation("${Libs.SWIPE_REFRESH_LAYOUT}:1.1.0")
-    implementation("${Libs.PLAY_SERVICES_OSS_LICENSES}:17.0.0")
-    implementation("${Libs.MULTIDEX}:2.0.1")
-    implementation("${Libs.NAVIGATION_FRAGMENT_KTX}:2.3.5")
-    implementation("${Libs.NAVIGATION_UI_KTX}:2.3.5")
-    implementation("${Libs.LIFECYCLE_RUNTIME}:2.4.0")
-    //implementation("${Libs.LIFECYCLE_VIEWMODEL}:2.4.0")
-    //implementation("${Libs.LIFECYCLE_LIVEDATA}:2.4.0")
-    //implementation("${Libs.LIFECYCLE_VIEWMODEL_SAVEDSTATE}:2.4.0")
-    //implementation("${Libs.SPLASH_SCREEN}:1.0.0-alpha02")
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.13.2")
+    kapt("com.github.bumptech.glide:compiler:4.13.2")
 
-    // libsu
-    implementation("${Libs.LIBSU}:3.2.1")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.5.0")
+    implementation("com.google.android.material:material:1.7.0-rc01")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
 
-    // Test
-    testImplementation("${Libs.JUNIT}:4.13.2")
-    androidTestImplementation("${Libs.EXT_JUNIT}:1.1.3")
-    androidTestImplementation("${Libs.ESPRESSO_CORE}:3.4.0")
-
-    //debugImplementation("${Libs.LEAKCANARY}:2.7")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
