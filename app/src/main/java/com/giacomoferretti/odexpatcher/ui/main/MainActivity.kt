@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Default) {
             val normalApp = AppInfo.fromPackageName(
                 packageManager,
-                "com.giacomoferretti.odexpatcher.example.nativelib.normal"
+                "com.giacomoferretti.odexpatcher.example.simple.normal"
             )
             val patchedApp = AppInfo.fromPackageName(
                 packageManager,
-                "com.giacomoferretti.odexpatcher.example.nativelib.patched"
+                "com.giacomoferretti.odexpatcher.example.simple.patched"
             )
 
             withContext(Dispatchers.Main) {

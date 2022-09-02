@@ -21,13 +21,13 @@
 
             <ImageView
                 android:id="@+id/appIcon"
+                imageUri="@{appInfo.iconUri}"
+                placeholderUri="@{android.R.drawable.sym_def_app_icon}"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:contentDescription="@string/cd_app_icon"
-                app:imageUri="@{appInfo.iconUri}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:placeholderUri="@{android.R.drawable.sym_def_app_icon}"
                 tools:src="@android:drawable/sym_def_app_icon" />
 
             <TextView
@@ -50,6 +50,7 @@
                 android:layout_marginStart="16dp"
                 android:text="@{appInfo.packageName}"
                 android:textColor="?attr/colorOnSurface"
+                android:paddingBottom="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appIcon"
                 app:layout_constraintTop_toBottomOf="@+id/appName"
@@ -64,7 +65,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appIcon"
                 app:layout_constraintTop_toBottomOf="@+id/appPackage"
-                tools:text="classes.dex count: 1" />
+                tools:text="Dex count: 1" />
 
             <TextView
                 android:id="@+id/appAbi"
@@ -72,10 +73,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{@string/abi(appInfo.abi)}"
+                gone="@{appInfo.abi == null}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appIcon"
                 app:layout_constraintTop_toBottomOf="@+id/appDexNum"
-                tools:text="abi: arm64" />
+                tools:text="ABI: arm64" />
+
+            <TextView
+                android:id="@+id/appOptimized"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{@string/is_optimized(appInfo.isOptimized ? @string/yes : @string/no)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/appIcon"
+                app:layout_constraintTop_toBottomOf="@+id/appAbi"
+                tools:text="Is optimized: Yes" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

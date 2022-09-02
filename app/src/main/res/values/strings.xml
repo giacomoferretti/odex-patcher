@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">ODEX Patcher</string>
     <string name="cd_app_icon">App icon</string>
-    <string name="dex_count">classes.dex count: %1$d</string>
-    <string name="abi">abi: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="dex_count">Dex count: %1$d</string>
+    <string name="abi">ABI: %1$s</string>
+    <string name="is_optimized">Is optimized: %1$s</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
