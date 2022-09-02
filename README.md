@@ -16,9 +16,13 @@ This tool can be useful when an app uses SafetyNet for example, as you cannot si
 
 ☺️ Coming soon...
 
-## Requirements
+## Supported Versions
 
-Android 4.4+ devices with root access ([Magisk](https://github.com/topjohnwu/Magisk) is suggested)
+Android 4.4 ~ 13
+
+### Requirements
+
+- Root access ([Magisk](https://github.com/topjohnwu/Magisk) is suggested)
 
 ## Downloads
 
@@ -195,3 +199,21 @@ Latest release: [2.0.0-rc1](https://github.com/giacomoferretti/odex-patcher/rele
 </table>
 
 <sup>(1)</sup> Follow [#6](https://github.com/giacomoferretti/odex-patcher/issues/6)
+
+## License
+
+```
+Copyright 2020-2022 Giacomo Ferretti
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
