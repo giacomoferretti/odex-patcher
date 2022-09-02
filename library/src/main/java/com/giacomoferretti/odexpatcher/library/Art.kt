@@ -8,13 +8,28 @@ import java.io.File
 
 object Art {
     @JvmStatic
+    fun getIsaVariant(isa: InstructionSet): String {
+        return getIsaVariant(isa.value)
+    }
+
+    @JvmStatic
     fun getIsaVariant(isa: String): String {
         return getProperty("dalvik.vm.isa.$isa.variant")
     }
 
     @JvmStatic
+    fun getIsaFeatures(isa: InstructionSet): String {
+        return getIsaFeatures(isa.value)
+    }
+
+    @JvmStatic
     fun getIsaFeatures(isa: String): String {
         return getProperty("dalvik.vm.isa.$isa.features")
+    }
+
+    @JvmStatic
+    fun getOatFolder(baseApk: String, isa: InstructionSet): String {
+        return getOatFolder(baseApk, isa.value)
     }
 
     @JvmStatic
@@ -33,6 +48,11 @@ object Art {
     }
 
     @JvmStatic
+    fun getOatFile(baseApk: String, isa: InstructionSet): String {
+        return getOatFile(baseApk, isa.value)
+    }
+
+    @JvmStatic
     fun getOatFile(baseApk: String, isa: String): String {
         return when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
@@ -47,8 +67,19 @@ object Art {
 
     @JvmStatic
     @RequiresApi(Build.VERSION_CODES.O)
+    fun getVdexFile(baseApk: String, isa: InstructionSet): String {
+        return getVdexFile(baseApk, isa.value)
+    }
+
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getVdexFile(baseApk: String, isa: String): String {
         return getOatFolder(baseApk, isa) + baseApk.filename().replace(".apk", ".vdex")
+    }
+
+    @JvmStatic
+    fun isOptimized(baseApk: String, isa: InstructionSet): Boolean {
+        return isOptimized(baseApk, isa.value)
     }
 
     @JvmStatic
