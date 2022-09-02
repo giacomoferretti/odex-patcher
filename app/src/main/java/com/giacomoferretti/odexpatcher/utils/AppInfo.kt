@@ -1,7 +1,6 @@
 package com.giacomoferretti.odexpatcher.utils
 
 import android.content.ContentResolver
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.annotation.WorkerThread
