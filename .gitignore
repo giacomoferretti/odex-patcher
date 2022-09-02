@@ -14,6 +14,7 @@ build/
 
 # Android
 release/
+.cxx/
 
 # Custom
 .ignoreme

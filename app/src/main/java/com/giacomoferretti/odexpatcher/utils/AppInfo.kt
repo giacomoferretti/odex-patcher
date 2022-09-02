@@ -5,9 +5,9 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.annotation.WorkerThread
-// import com.giacomoferretti.odexpatcher.library.Art
-// import com.giacomoferretti.odexpatcher.library.InstructionSet
-// import com.giacomoferretti.odexpatcher.library.Utils
+import com.giacomoferretti.odexpatcher.library.Art
+import com.giacomoferretti.odexpatcher.library.InstructionSet
+import com.giacomoferretti.odexpatcher.library.Utils
 
 interface IAppInfo {
     val name: String
@@ -46,17 +46,17 @@ data class AppInfo(
 
             val a = ApplicationInfo::class.java.getDeclaredField("primaryCpuAbi").get(packageManager.getPackageInfo(packageName, 0).applicationInfo)
 
-            // var abi = Art.ISA
-            // if (a != null) {
-            //     abi = InstructionSet.fromAbi(a as String).value
-            // }
+             var abi = Art.ISA
+             if (a != null) {
+                 abi = InstructionSet.fromAbi(a as String).value
+             }
 
             return AppInfo(
                 name = appInfo.loadLabel(packageManager).toString(),
                 packageName = appInfo.packageName,
                 iconUri = iconUri,
-                dexCount = 0, // Utils.countClassesDex(appInfo.sourceDir),
-                abi = "null" // abi
+                dexCount = Utils.countClassesDex(appInfo.sourceDir),
+                abi = abi
             )
         }
     }

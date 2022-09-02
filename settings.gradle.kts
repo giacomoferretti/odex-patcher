@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ODEX Patcher"
 include(":app")
+include(":library")

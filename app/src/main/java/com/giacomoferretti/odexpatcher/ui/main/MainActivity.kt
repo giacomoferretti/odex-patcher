@@ -27,8 +27,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Default) {
             val normalApp = AppInfo.fromPackageName(
                 packageManager,
-                "com.android.dialer"
-                // "com.giacomoferretti.odexpatcher.example.nativelib.normal"
+                "com.giacomoferretti.odexpatcher.example.nativelib.normal"
             )
             val patchedApp = AppInfo.fromPackageName(
                 packageManager,
