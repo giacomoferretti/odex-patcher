@@ -18,3 +18,5 @@ dependencyResolutionManagement {
 rootProject.name = "ODEX Patcher"
 include(":app")
 include(":library")
+include(":examples:kotlin:simple")
+include(":examples:kotlin:native")
