@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="uiState"
-            type="com.giacomoferretti.odexpatcher.ui.main.MainUiState" />
+            name="viewModel"
+            type="com.giacomoferretti.odexpatcher.ui.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:appInfo="@{uiState.inputApp}"
+            app:appInfo="@{viewModel.uiState.inputApp}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +46,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:appInfo="@{uiState.outputApp}"
+            app:appInfo="@{viewModel.uiState.outputApp}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/decorationArrow" />
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:enabled="@{!uiState.patching}"
+            android:enabled="@{!viewModel.uiState.patching}"
             android:text="Patch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +70,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:progress="@{uiState.progress}"
-            android:max="@{uiState.patchState.values().length - 1}"
+            android:max="@{viewModel.uiState.patchState.values().length - 1}"
+            android:progress="@{viewModel.uiState.progress}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/patchButton" />
@@ -80,10 +81,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@{uiState.patchState.value}"
+            android:text="@{viewModel.uiState.patchState.value}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+            app:layout_constraintTop_toBottomOf="@+id/progressBar"
+            tools:text="Ready!" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

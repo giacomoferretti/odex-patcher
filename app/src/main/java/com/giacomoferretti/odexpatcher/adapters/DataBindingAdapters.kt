@@ -9,14 +9,10 @@ import androidx.core.view.isGone
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
-@BindingAdapter(value = ["imageUri", "placeholderUri"])
+@BindingAdapter("imageUri", "placeholderUri")
 fun bindImageFromUri(view: ImageView, uri: Uri?, @DrawableRes placeholderImage: Int) {
-    Log.d("BINDING", uri.toString())
+    // TODO: This gets called multiple times whenever the state changes
     if (uri != null && uri != Uri.EMPTY) {
-//        view.load(uri) {
-//            placeholder(placeholderI)
-//            crossfade(true)
-//        }
         Glide
             .with(view.context)
             .load(uri)

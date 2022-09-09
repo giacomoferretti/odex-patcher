@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        binding.lifecycleOwner = this
+        binding.content.viewModel = viewModel
         viewModel.debugInit(
             packageManager,
             "com.giacomoferretti.odexpatcher.example.simple.normal",
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.content.uiState = state
+
 
                     // Manage messages
                     state.userMessages.also {
