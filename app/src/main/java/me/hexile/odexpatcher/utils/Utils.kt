@@ -20,7 +20,6 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import me.hexile.odexpatcher.ktx.toByteArray
 import java.io.File
-import java.util.*
 import java.util.zip.ZipFile
 
 fun isSdkGreaterThan(version: Int): Boolean {
@@ -41,36 +40,23 @@ fun <T> MutableLiveData<T>.notifyObserver() {
     this.value = this.value
 }
 
-fun extractChecksums(file: File): ArrayList<ByteArray> { // Map<String, ByteArray> {
+fun extractChecksums(file: File): HashMap<String, ByteArray> {
     return extractClassesDex(file.absolutePath)
 }
 
-fun extractClassesDex(path: String): ArrayList<ByteArray> { //Map<String, ByteArray> {
-    /*val classesDex = LinkedHashMap<String, ByteArray>()
+fun extractClassesDex(path: String): HashMap<String, ByteArray> {
+    val checksums = hashMapOf<String, ByteArray>()
     ZipFile(path).use { zip ->
         zip
             .entries()
             .asSequence()
             .forEach {
                 if (it.name.startsWith("classes") && it.name.endsWith(".dex")) {
-                    classesDex[it.name] = it.crc.toInt().toByteArray()
+                    // Add classes.dex as classes1.dex for ordering purpose while patching.
+                    val dexName = if (it.name == "classes.dex") "classes1.dex" else it.name
+                    checksums[dexName] = it.crc.toInt().toByteArray()
                 }
             }
     }
-    return classesDex*/
-    val checksums = ArrayList<ByteArray>()
-
-    ZipFile(path).use { zip ->
-        zip
-            .entries()
-            .asSequence()
-            .forEach {
-                if (it.name.startsWith("classes") && it.name.endsWith(".dex")) {
-                    //println(it.name)
-                    checksums.add(it.crc.toInt().toByteArray())
-                }
-            }
-    }
-
     return checksums
 }

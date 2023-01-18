@@ -40,7 +40,7 @@ fun List<ByteArray>.toHexString(): String {
     }
 }
 
-fun Map<Long, ByteArray>.toHexString(): String {
+fun HashMap<String, ByteArray>.toHexString(): String {
     return this.iterator().let {
         if (!it.hasNext()) {
             "{}"
