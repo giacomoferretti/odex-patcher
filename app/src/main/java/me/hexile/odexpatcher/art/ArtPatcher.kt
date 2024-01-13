@@ -34,7 +34,7 @@ abstract class ArtPatcher(private val file: File) {
         }
     }
 
-    fun patch(checksums: ArrayList<ByteArray>) {
+    fun patch(checksums: HashMap<String, ByteArray>) {
         if (checksums.isEmpty()) {
             throw IllegalArgumentException("Cannot be empty")
         } else if (checksums.size != this._checksums.size) {
@@ -47,12 +47,15 @@ abstract class ArtPatcher(private val file: File) {
 
                 val source = raf.readBytes(it.value.first, 4)
                 val sourceCache = it.value.second
-                val new = checksums[it.index]
+                // Retrieve the correct checksum based on the dex name from the map.
+                // Example - { "classes1.dex": "checksum" , ... }
+                // so index + 1 is needed here.
+                val new = checksums["classes${it.index + 1}.dex"]
 
-                println(" -> ${source.toHexString()} = ${new.toHexString()} [${sourceCache.toHexString()}]")
+                println(" -> ${source.toHexString()} = ${new?.toHexString()} [${sourceCache.toHexString()}]")
 
                 raf.seek(it.value.first)
-                raf.write(checksums[it.index]) // java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
+                raf.write(new) // java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
             }
         }
     }
